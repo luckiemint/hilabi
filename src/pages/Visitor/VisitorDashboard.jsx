@@ -132,10 +132,23 @@ const AlertIcon = () => (
   </svg>
 );
 
+const ShieldIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+  </svg>
+);
+
 const ContactVehiclePages = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState("menu");
-  const [selectedPhone, setSelectedPhone] = useState("");
+  const [selectedContactIndex, setSelectedContactIndex] = useState(null);
 
   const MenuPage = () => (
     <div className="page-content">
@@ -234,8 +247,8 @@ const ContactVehiclePages = () => {
             </svg>
           </div>
           <div className="option-content">
-            <h3>Emergency Contact</h3>
-            <p>Urgent situation only</p>
+            <h3>Emergency Contacts</h3>
+            <p>Contact owner's family/friends</p>
           </div>
           <svg
             width="20"
@@ -260,21 +273,24 @@ const ContactVehiclePages = () => {
     buttonText,
     buttonClass,
     onClick,
-    selectedPhone,
-    onPhoneSelect,
+    selectedContactIndex,
+    onContactSelect,
   }) => {
     const inputRef = useRef(null);
 
-    // Mock phone numbers - in real app, these would come from vehicle lookup
-    const phoneNumbers =
+    // Mock contacts with hidden numbers
+    const contacts =
       type === "emergency"
         ? [
-            "+91 98765 43210",
-            "+91 87654 32109",
-            "+91 76543 21098",
-            "+91 65432 10987",
+            { id: 1, label: "Wife", phone: "+91 98765 43210", type: "Mobile", relation: "Spouse" },
+            { id: 2, label: "Mother", phone: "+91 87654 32109", type: "Mobile", relation: "Parent" },
+            { id: 3, label: "Brother", phone: "+91 76543 21098", type: "Mobile", relation: "Sibling" },
+            { id: 4, label: "Father", phone: "+91 65432 10987", type: "Mobile", relation: "Parent" },
           ]
-        : ["+91 98765 43210", "+91 87654 32109"];
+        : [
+            { id: 1, label: "Primary Contact", phone: "+91 98765 43210", type: "Mobile" },
+            { id: 2, label: "Alternate Contact", phone: "+91 87654 32109", type: "Mobile" },
+          ];
 
     useEffect(() => {
       inputRef.current?.focus();
@@ -294,19 +310,19 @@ const ContactVehiclePages = () => {
 
           <div className="input-group">
             <label className="input-label">
-              Select Phone Number to{" "}
+              Select Contact to{" "}
               {type === "call"
                 ? "Call"
                 : type === "message"
                   ? "Message"
-                  : "Contact"}
+                  : "Reach"}
             </label>
             <div className="phone-options-modern">
-              {phoneNumbers.map((phone, index) => (
+              {contacts.map((contact, index) => (
                 <div
-                  key={index}
-                  className={`phone-card ${selectedPhone === phone ? "selected" : ""} ${type}-theme`}
-                  onClick={() => onPhoneSelect(phone)}
+                  key={contact.id}
+                  className={`phone-card ${selectedContactIndex === index ? "selected" : ""} ${type}-theme`}
+                  onClick={() => onContactSelect(index)}
                 >
                   <div className="phone-card-inner">
                     <div className="phone-card-header">
@@ -323,7 +339,7 @@ const ContactVehiclePages = () => {
                           <circle cx="12" cy="7" r="4" />
                         </svg>
                         <span className="phone-label-tag">
-                          Phone {index + 1}
+                          {contact.label}
                         </span>
                       </div>
                       <div className="selection-indicator">
@@ -345,7 +361,44 @@ const ContactVehiclePages = () => {
                     </div>
 
                     <div className="phone-number-display">
-                      <span className="phone-number-text">{phone}</span>
+                      <div className="masked-number">
+                        <ShieldIcon />
+                        <span className="masked-text">Protected Number</span>
+                      </div>
+                      <span className="contact-type-badge">{contact.type}</span>
+                    </div>
+
+                    {/* {contact.relation && (
+                      <div className="relation-badge">
+                        <svg
+                          width="14"
+                          height="14"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                          <circle cx="9" cy="7" r="4" />
+                          <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                          <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                        </svg>
+                        <span>{contact.relation}</span>
+                      </div>
+                    )} */}
+
+                    <div className="privacy-note">
+                      <svg
+                        width="14"
+                        height="14"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                      >
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                      </svg>
+                      <span>Number hidden for privacy</span>
                     </div>
                   </div>
 
@@ -367,8 +420,8 @@ const ContactVehiclePages = () => {
               <path d="M12 2L4 6v6c0 5.55 3.84 10.74 8 12 4.16-1.26 8-6.45 8-12V6l-8-4z" />
             </svg>
             <div className="info-text">
-              <strong>Your privacy is protected</strong>
-              <p>The vehicle owner will not see your personal phone number</p>
+              <strong>Complete Privacy Protection</strong>
+              <p>Neither party will see each other's actual phone numbers. All communications are routed through our secure system.</p>
             </div>
           </div>
 
@@ -412,11 +465,11 @@ const ContactVehiclePages = () => {
           {type === "emergency" ? (
             <div className="emergency-buttons-row">
               <button
-                className={`primary-btn emergency-btn-primary ${selectedPhone ? "active" : ""}`}
-                disabled={!selectedPhone}
+                className={`primary-btn emergency-btn-primary ${selectedContactIndex !== null ? "active" : ""}`}
+                disabled={selectedContactIndex === null}
                 onClick={() =>
-                  selectedPhone &&
-                  (window.location.href = `tel:${selectedPhone.replace(/\s/g, "")}`)
+                  selectedContactIndex !== null &&
+                  (window.location.href = `tel:${contacts[selectedContactIndex].phone.replace(/\s/g, "")}`)
                 }
               >
                 <span>Make Call</span>
@@ -432,12 +485,12 @@ const ContactVehiclePages = () => {
                 </svg>
               </button>
               <button
-                className={`primary-btn message-btn-primary ${selectedPhone ? "active" : ""}`}
-                disabled={!selectedPhone}
+                className={`primary-btn message-btn-primary ${selectedContactIndex !== null ? "active" : ""}`}
+                disabled={selectedContactIndex === null}
                 onClick={() =>
-                  selectedPhone &&
+                  selectedContactIndex !== null &&
                   window.open(
-                    `https://wa.me/${selectedPhone.replace(/\s/g, "").replace("+", "")}`,
+                    `https://wa.me/${contacts[selectedContactIndex].phone.replace(/\s/g, "").replace("+", "")}`,
                     "_blank",
                   )
                 }
@@ -457,9 +510,9 @@ const ContactVehiclePages = () => {
             </div>
           ) : (
             <button
-              className={`primary-btn ${buttonClass} ${selectedPhone ? "active" : ""}`}
-              disabled={!selectedPhone}
-              onClick={() => selectedPhone && onClick(selectedPhone)}
+              className={`primary-btn ${buttonClass} ${selectedContactIndex !== null ? "active" : ""}`}
+              disabled={selectedContactIndex === null}
+              onClick={() => selectedContactIndex !== null && onClick(contacts[selectedContactIndex].phone)}
             >
               <span>{buttonText}</span>
               <svg
@@ -474,15 +527,6 @@ const ContactVehiclePages = () => {
               </svg>
             </button>
           )}
-          <button
-            className="back-link"
-            onClick={() => {
-              setCurrentPage("menu");
-              setSelectedPhone("");
-            }}
-          >
-            Choose Different Option
-          </button>
         </footer>
       </div>
     );
@@ -501,7 +545,7 @@ const ContactVehiclePages = () => {
               className="back-btn"
               onClick={() => {
                 setCurrentPage("menu");
-                setSelectedPhone("");
+                setSelectedContactIndex(null);
               }}
             >
               <BackIcon size={28} />
@@ -530,10 +574,10 @@ const ContactVehiclePages = () => {
             icon={PhoneIcon}
             title="Make Private Call"
             subtitle="Call the vehicle owner anonymously. Your number will remain private."
-            buttonText="Call Now"
+            buttonText="Initiate Secure Call"
             buttonClass="call-btn-primary"
-            selectedPhone={selectedPhone}
-            onPhoneSelect={setSelectedPhone}
+            selectedContactIndex={selectedContactIndex}
+            onContactSelect={setSelectedContactIndex}
             onClick={(phone) =>
               (window.location.href = `tel:${phone.replace(/\s/g, "")}`)
             }
@@ -545,10 +589,10 @@ const ContactVehiclePages = () => {
             icon={MessageIcon}
             title="Send WhatsApp Message"
             subtitle="Send a message to the vehicle owner via WhatsApp"
-            buttonText="Send Message"
+            buttonText="Send Secure Message"
             buttonClass="message-btn-primary"
-            selectedPhone={selectedPhone}
-            onPhoneSelect={setSelectedPhone}
+            selectedContactIndex={selectedContactIndex}
+            onContactSelect={setSelectedContactIndex}
             onClick={(phone) =>
               window.open(
                 `https://wa.me/${phone.replace(/\s/g, "").replace("+", "")}`,
@@ -561,12 +605,12 @@ const ContactVehiclePages = () => {
           <ContactFormPage
             type="emergency"
             icon={EmergencyIcon}
-            title="Emergency Contact"
-            subtitle="For urgent situations only. This will immediately alert the vehicle owner."
+            title="Emergency Contacts"
+            subtitle="In case of emergency situation with the vehicle owner. Contact their trusted family members or friends."
             buttonText="View Emergency Contacts"
             buttonClass="emergency-btn-primary"
-            selectedPhone={selectedPhone}
-            onPhoneSelect={setSelectedPhone}
+            selectedContactIndex={selectedContactIndex}
+            onContactSelect={setSelectedContactIndex}
             onClick={(phone) => navigate("/visitor/emergency-contacts")}
           />
         )}
@@ -791,8 +835,6 @@ const ContactVehiclePages = () => {
           font-size: 0.8125rem;
           color: #64748b;
           line-height: 1.6;
-          padding-bottom: 20px;
-          margin-bottom: 100px;
         }
 
         .footer-links a {
@@ -1124,117 +1166,135 @@ const ContactVehiclePages = () => {
           transform: scale(1);
         }
 
-        /* Phone Number Display */
+        /* Phone Number Display - UPDATED FOR MASKED NUMBERS */
         .phone-number-display {
-          margin-bottom: 14px;
-        }
-
-        .phone-number-text {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #0f172a;
-          letter-spacing: 0.5px;
-          display: block;
-        }
-
-        /* Card Footer */
-        .phone-card-footer {
+          margin-bottom: 12px;
           display: flex;
-          justify-content: space-between;
           align-items: center;
+          justify-content: space-between;
+          gap: 10px;
+        }
+
+        .masked-number {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex: 1;
+        }
+
+        .masked-number svg {
+          color: #64748b;
+          flex-shrink: 0;
+        }
+
+        .phone-card.selected.call-theme .masked-number svg {
+          color: #3b82f6;
+        }
+
+        .phone-card.selected.message-theme .masked-number svg {
+          color: #10b981;
+        }
+
+        .phone-card.selected.emergency-theme .masked-number svg {
+          color: #ef4444;
+        }
+
+        .masked-text {
+          font-size: 1rem;
+          font-weight: 600;
+          color: #64748b;
+        }
+
+        .phone-card.selected .masked-text {
+          color: #0f172a;
+        }
+
+        .contact-type-badge {
+          display: inline-block;
+          padding: 4px 10px;
+          background: #f1f5f9;
+          border-radius: 8px;
+          font-size: 0.75rem;
+          font-weight: 600;
+          color: #64748b;
+        }
+
+        .phone-card.selected.call-theme .contact-type-badge {
+          background: rgba(59, 130, 246, 0.15);
+          color: #2563eb;
+        }
+
+        .phone-card.selected.message-theme .contact-type-badge {
+          background: rgba(16, 185, 129, 0.15);
+          color: #059669;
+        }
+
+        .phone-card.selected.emergency-theme .contact-type-badge {
+          background: rgba(239, 68, 68, 0.15);
+          color: #dc2626;
+        }
+
+        /* Privacy Note */
+        .privacy-note {
+          display: flex;
+          align-items: center;
+          gap: 6px;
           padding-top: 12px;
           border-top: 1px solid #f1f5f9;
+          font-size: 0.75rem;
+          color: #94a3b8;
         }
 
-        .status-badge {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 0.8125rem;
+        .privacy-note svg {
+          color: #cbd5e1;
+          flex-shrink: 0;
+        }
+
+        .phone-card.selected .privacy-note {
           color: #64748b;
-          font-weight: 500;
         }
 
-        .status-dot {
-          width: 6px;
-          height: 6px;
-          border-radius: 50%;
-          background: #10b981;
-          animation: pulse 2s infinite;
+        .phone-card.selected.call-theme .privacy-note svg {
+          color: #93c5fd;
         }
 
-        @keyframes pulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.5; }
+        .phone-card.selected.message-theme .privacy-note svg {
+          color: #6ee7b7;
         }
 
-        /* Card Action Buttons */
-        .card-action-buttons {
-          display: flex;
-          gap: 8px;
+        .phone-card.selected.emergency-theme .privacy-note svg {
+          color: #fca5a5;
         }
 
-        .card-action-btn {
-          width: 36px;
-          height: 36px;
-          border-radius: 10px;
-          border: none;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          transition: all 0.2s;
-        }
-
-        .card-action-btn:active {
-          transform: scale(0.95);
-        }
-
-        .card-action-btn.call-btn {
-          background: linear-gradient(135deg, #3b82f6, #2563eb);
-          color: #ffffff;
-          box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
-        }
-
-        .card-action-btn.message-btn {
-          background: linear-gradient(135deg, #10b981, #059669);
-          color: #ffffff;
-          box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
-        }
-
-        /* Quick Action Button */
-        .quick-action-btn {
+        /* Relation Badge */
+        .relation-badge {
           display: flex;
           align-items: center;
           gap: 6px;
-          padding: 8px 14px;
+          padding: 8px 12px;
+          background: #f8fafc;
+          border: 1px solid #e2e8f0;
           border-radius: 10px;
           font-size: 0.8125rem;
-          font-weight: 600;
-          text-decoration: none;
-          transition: all 0.2s;
+          font-weight: 500;
+          color: #64748b;
+          margin-bottom: 12px;
+          width: fit-content;
         }
 
-        .quick-action-btn.call-action {
-          background: linear-gradient(135deg, #3b82f6, #2563eb);
-          color: #ffffff;
-          box-shadow: 0 2px 8px rgba(59, 130, 246, 0.25);
+        .relation-badge svg {
+          color: #94a3b8;
+          flex-shrink: 0;
         }
 
-        .quick-action-btn.message-action {
-          background: linear-gradient(135deg, #10b981, #059669);
-          color: #ffffff;
-          box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+        .phone-card.selected.emergency-theme .relation-badge {
+          background: rgba(239, 68, 68, 0.08);
+          border-color: rgba(239, 68, 68, 0.2);
+          color: #dc2626;
         }
 
-        .quick-action-btn.emergency-action {
-          background: linear-gradient(135deg, #ef4444, #dc2626);
-          color: #ffffff;
-          box-shadow: 0 2px 8px rgba(239, 68, 68, 0.25);
-        }
-
-        .quick-action-btn:active {
-          transform: scale(0.95);
+        .phone-card.selected.emergency-theme .relation-badge svg {
+          color: #ef4444;
         }
 
         .info-card {
@@ -1283,19 +1343,18 @@ const ContactVehiclePages = () => {
         .emergency-buttons-row {
           display: flex;
           gap: 10px;
-          margin-bottom: 10px;
         }
 
         .emergency-buttons-row .primary-btn {
           flex: 1;
-          padding: 16px 12px;
+          padding: 12px 12px;
           font-size: 0.9375rem;
           margin-bottom: 0;
         }
 
         .primary-btn {
           width: 100%;
-          padding: 18px 24px;
+          padding: 12px 24px;
           background: #cbd5e1;
           color: #94a3b8;
           border: none;
@@ -1308,7 +1367,6 @@ const ContactVehiclePages = () => {
           justify-content: center;
           gap: 8px;
           transition: all 0.3s;
-          margin-bottom: 10px;
         }
 
         .primary-btn.active {
@@ -1337,24 +1395,6 @@ const ContactVehiclePages = () => {
           transform: scale(0.98);
         }
 
-        .back-link {
-          width: 100%;
-          padding: 14px;
-          background: none;
-          border: none;
-          color: #64748b;
-          font-size: 0.875rem;
-          font-weight: 500;
-          cursor: pointer;
-          border-radius: 12px;
-          transition: all 0.2s;
-        }
-
-        .back-link:active {
-          background: #f1f5f9;
-          color: #0f172a;
-        }
-
         @media (max-width: 639px) {
           .section-title {
             font-size: 1.25rem;
@@ -1364,9 +1404,6 @@ const ContactVehiclePages = () => {
           }
           .input-label {
             font-size: 0.8125rem;
-          }
-          .phone-number-text {
-            font-size: 1.125rem;
           }
         }
 
