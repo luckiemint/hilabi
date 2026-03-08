@@ -39,6 +39,16 @@
   min-width: 0;
 }
 
+.admin-sidebar-logo-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  font: inherit;
+  width: 100%;
+  text-align: left;
+}
+
 .admin-sidebar-logo-icon {
   width: 44px;
   height: 44px;

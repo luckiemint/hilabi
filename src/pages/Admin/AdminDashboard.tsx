@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AdminSidebar from "../../components/AdminSidebar";
 import { MenuIcon, CloseIcon } from "./components/AdminIcons";
 import DashboardOverview from "./pages/DashboardOverview";
@@ -7,6 +8,7 @@ import UsersPage from "./pages/UsersPage";
 import QRManagementPage from "./pages/QRManagementPage";
 
 const AdminDashboard = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("dashboard");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -43,7 +45,12 @@ const AdminDashboard = () => {
         >
           {sidebarOpen ? <CloseIcon /> : <MenuIcon />}
         </button>
-        <div className="mobile-logo">
+        <button
+          type="button"
+          className="mobile-logo"
+          onClick={() => navigate("/")}
+          aria-label="Go to home"
+        >
           <svg
             width="28"
             height="28"
@@ -56,7 +63,7 @@ const AdminDashboard = () => {
             <rect x="14" y="3" width="7" height="7" />
           </svg>
           <h1 className="hilabi-font">HILABI</h1>
-        </div>
+        </button>
         <div className="mobile-spacer"></div>
       </header>
 
@@ -78,9 +85,7 @@ const AdminDashboard = () => {
         onMobileClose={() => setSidebarOpen(false)}
       />
 
-      <main className="main-content">
-        {renderPage()}
-      </main>
+      <main className="main-content">{renderPage()}</main>
 
       <style>{`
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -129,6 +134,11 @@ const AdminDashboard = () => {
           gap: 10px;
           flex: 1;
           justify-content: center;
+          border: none;
+          background: none;
+          cursor: pointer;
+          padding: 0;
+          font: inherit;
           margin-left: -40px;
         }
 
@@ -1198,6 +1208,18 @@ const AdminDashboard = () => {
             display: none;
           }
 
+          .main-content .qr-display.qr-grid.qr-grid-tags {
+            grid-template-columns: 1fr;
+            gap: 16px;
+            max-width: 280px;
+            margin: 0 auto;
+          }
+
+          .main-content .qr-item-tag .parking-tag {
+            width: 100%;
+            max-width: 200px;
+          }
+
           .qr-display.qr-grid {
             grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
             gap: 12px;
@@ -1315,6 +1337,16 @@ const AdminDashboard = () => {
           .kpi-card {
             padding: 16px;
           }
+
+          .main-content .qr-display.qr-grid.qr-grid-tags {
+            grid-template-columns: 1fr;
+            max-width: 260px;
+            margin: 0 auto;
+          }
+
+          // .main-content .qr-item-tag .parking-tag {
+          //   max-width: 180px;
+          // }
 
           .qr-display.qr-grid {
             grid-template-columns: 1fr 1fr;

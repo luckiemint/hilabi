@@ -109,7 +109,12 @@ const AdminSidebar = ({
         className={`admin-sidebar ${isCollapsed ? "collapsed" : ""} ${isMobileOpen ? "mobile-open" : ""}`}
       >
         <div className="admin-sidebar-header">
-          <div className="admin-sidebar-logo">
+          <button
+            type="button"
+            className="admin-sidebar-logo admin-sidebar-logo-btn"
+            onClick={() => navigate("/")}
+            aria-label="Go to home"
+          >
             <div className="admin-sidebar-logo-icon">
               <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="2">
                 <rect x="3" y="3" width="7" height="7" />
@@ -122,7 +127,7 @@ const AdminSidebar = ({
                 <span className="admin-sidebar-subtitle">Admin Panel</span>
               </div>
             )}
-          </div>
+          </button>
         </div>
 
         <button

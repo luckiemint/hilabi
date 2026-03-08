@@ -76,17 +76,29 @@ const QRManagementPage = () => {
   const [allQRCodes, setAllQRCodes] = useState<QRCode[]>(initialQRCodes);
   const [confirmModalOpen, setConfirmModalOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
-  const [linkFilter, setLinkFilter] = useState<"all" | "linked" | "unlinked">("all");
-  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "inactive">("all");
+  const [linkFilter, setLinkFilter] = useState<"all" | "linked" | "unlinked">(
+    "all",
+  );
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "active" | "inactive"
+  >("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [singleDownloadId, setSingleDownloadId] = useState<string | null>(null);
   const [downloadQr, setDownloadQr] = useState<QRCode | null>(null);
   const downloadRef = useRef<HTMLDivElement>(null);
 
   const filteredQRCodes = allQRCodes.filter((qr) => {
-    const matchesLink = linkFilter === "all" || (linkFilter === "linked" && qr.linked) || (linkFilter === "unlinked" && !qr.linked);
-    const matchesStatus = statusFilter === "all" || (statusFilter === "active" && qr.status === "active") || (statusFilter === "inactive" && qr.status === "inactive");
-    const matchesSearch = !searchQuery.trim() || qr.code.toLowerCase().includes(searchQuery.trim().toLowerCase());
+    const matchesLink =
+      linkFilter === "all" ||
+      (linkFilter === "linked" && qr.linked) ||
+      (linkFilter === "unlinked" && !qr.linked);
+    const matchesStatus =
+      statusFilter === "all" ||
+      (statusFilter === "active" && qr.status === "active") ||
+      (statusFilter === "inactive" && qr.status === "inactive");
+    const matchesSearch =
+      !searchQuery.trim() ||
+      qr.code.toLowerCase().includes(searchQuery.trim().toLowerCase());
     return matchesLink && matchesStatus && matchesSearch;
   });
 
@@ -96,7 +108,7 @@ const QRManagementPage = () => {
 
   const handleSetStatus = (qrId: string, status: "active" | "inactive") => {
     setAllQRCodes((prev) =>
-      prev.map((qr) => (qr.id === qrId ? { ...qr, status } : qr))
+      prev.map((qr) => (qr.id === qrId ? { ...qr, status } : qr)),
     );
   };
 
@@ -133,20 +145,32 @@ const QRManagementPage = () => {
     const timer = setTimeout(() => {
       html2canvas(el as HTMLElement, {
         scale: 2,
-        backgroundColor: null,
+        backgroundColor: "#262626",
         useCORS: true,
-      }).then((canvas) => {
-        const link = document.createElement("a");
-        link.download = `parking-tag-${downloadQr.code}.png`;
-        link.href = canvas.toDataURL("image/png");
-        link.click();
-        setDownloadQr(null);
-      });
-    }, 100);
+        allowTaint: true,
+        logging: false,
+      })
+        .then((canvas) => {
+          const link = document.createElement("a");
+          link.download = `parking-tag-${downloadQr.code}.png`;
+          link.href = canvas.toDataURL("image/png");
+          link.click();
+          setDownloadQr(null);
+        })
+        .catch(() => setDownloadQr(null));
+    }, 300);
     return () => clearTimeout(timer);
   }, [downloadQr]);
 
   const displayCount = Math.max(1, Math.min(500, parseInt(qrCount, 10) || 1));
+
+  const getQrValue = (qr: QRCode) => {
+    // const base = typeof window !== "undefined" ? window.location.origin : "https://hilabi.app";
+    const base = "https://hilabi.vercel.app";
+    return qr.linked
+      ? `${base}/visitor/dashboard`
+      : `${base}/registration/activate`;
+  };
 
   const printSheet = (
     <>
@@ -177,16 +201,22 @@ const QRManagementPage = () => {
           .qr-print-sheet { display: none !important; }
         }
         .qr-download-staging {
-          position: absolute;
-          left: -9999px;
+          position: fixed;
+          left: 0;
           top: 0;
-          visibility: hidden;
+          z-index: 99999;
+          pointer-events: none;
         }
       `}</style>
       <div className="qr-print-sheet">
-        <div className={`qr-print-sheet-grid ${singleDownloadId ? "qr-print-single" : ""}`}>
-          {(singleDownloadId ? allQRCodes.filter((q) => q.id === singleDownloadId) : allQRCodes).map((qr) => (
-            <ParkingTag key={qr.id} code={qr.code} />
+        <div
+          className={`qr-print-sheet-grid ${singleDownloadId ? "qr-print-single" : ""}`}
+        >
+          {(singleDownloadId
+            ? allQRCodes.filter((q) => q.id === singleDownloadId)
+            : allQRCodes
+          ).map((qr) => (
+            <ParkingTag key={qr.id} code={qr.code} qrValue={getQrValue(qr)} />
           ))}
         </div>
       </div>
@@ -215,191 +245,212 @@ const QRManagementPage = () => {
   return (
     <>
       {createPortal(printSheet, document.body)}
-      {downloadQr && createPortal(
-        <div
-          ref={downloadRef}
-          className="qr-download-staging"
-          aria-hidden
-        >
-          <ParkingTag code={downloadQr.code} />
-        </div>,
-        document.body
-      )}
-    <div className="qr-content">
-      <div className="page-header">
-        <h2>QR Code Management</h2>
-        <p>Generate and manage QR codes</p>
-      </div>
+      {downloadQr &&
+        createPortal(
+          <div ref={downloadRef} className="qr-download-staging" aria-hidden>
+            <ParkingTag
+              code={downloadQr.code}
+              qrValue={getQrValue(downloadQr)}
+            />
+          </div>,
+          document.body,
+        )}
+      <div className="qr-content">
+        <div className="page-header">
+          <h2>QR Code Management</h2>
+          <p>Generate and manage QR codes</p>
+        </div>
 
-      {confirmModalOpen && (
-        <div className="confirm-modal-overlay" onClick={handleCloseModal}>
-          <div className="confirm-modal confirm-modal-qr" onClick={(e) => e.stopPropagation()}>
-            <h3 className="confirm-modal-title">Generate QR Codes</h3>
-            <div className="qr-modal-input-wrap">
-              <label htmlFor="qr-count-modal">Number of QR Codes</label>
+        {confirmModalOpen && (
+          <div className="confirm-modal-overlay" onClick={handleCloseModal}>
+            <div
+              className="confirm-modal confirm-modal-qr"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="confirm-modal-title">Generate QR Codes</h3>
+              <div className="qr-modal-input-wrap">
+                <label htmlFor="qr-count-modal">Number of QR Codes</label>
+                <input
+                  id="qr-count-modal"
+                  type="number"
+                  min={1}
+                  max={500}
+                  value={qrCount}
+                  onChange={(e) => setQrCount(e.target.value)}
+                  className="qr-count-input"
+                />
+              </div>
+              <p className="confirm-modal-message">
+                Are you sure you want to generate{" "}
+                <strong className="qr-confirm-number">{displayCount}</strong> QR
+                code
+                {displayCount === 1 ? "" : "s"}?
+              </p>
+              <div className="confirm-modal-actions">
+                <button
+                  className="confirm-modal-btn cancel"
+                  onClick={handleCloseModal}
+                >
+                  <CancelIcon /> Cancel
+                </button>
+                <button
+                  className="confirm-modal-btn confirm qr-confirm-btn"
+                  onClick={handleConfirmGenerate}
+                >
+                  <QRIcon /> Generate {displayCount} QR Code
+                  {displayCount === 1 ? "" : "s"}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className="results-section">
+          <div className="results-header">
+            <h3>
+              QR Codes ({filteredQRCodes.length}
+              {filteredQRCodes.length !== allQRCodes.length
+                ? ` of ${allQRCodes.length}`
+                : ""}
+              )
+            </h3>
+            <div className="results-header-actions">
+              <button
+                className="icon-btn icon-btn-generate"
+                onClick={handleGenerateClick}
+              >
+                <QRIcon /> <span>Generate QR</span>
+              </button>
+              <button className="icon-btn" onClick={handlePrintOrDownload}>
+                <PrintIcon /> <span>Print</span>
+              </button>
+              <button className="icon-btn" onClick={handlePrintOrDownload}>
+                <DownloadIcon /> <span>Download</span>
+              </button>
+              <div className="qr-view-toggle">
+                <button
+                  type="button"
+                  className={`view-toggle-btn ${viewMode === "grid" ? "active" : ""}`}
+                  onClick={() => setViewMode("grid")}
+                  title="Grid view"
+                >
+                  <GridIcon />
+                </button>
+                <button
+                  type="button"
+                  className={`view-toggle-btn ${viewMode === "list" ? "active" : ""}`}
+                  onClick={() => setViewMode("list")}
+                  title="List view"
+                >
+                  <ListIcon />
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="qr-filters">
+            <div className="qr-filter-search">
+              <SearchIcon />
               <input
-                id="qr-count-modal"
-                type="number"
-                min={1}
-                max={500}
-                value={qrCount}
-                onChange={(e) => setQrCount(e.target.value)}
-                className="qr-count-input"
+                type="text"
+                placeholder="Search by QR code..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="qr-search-input"
               />
             </div>
-            <p className="confirm-modal-message">
-              Are you sure you want to generate{" "}
-              <strong className="qr-confirm-number">{displayCount}</strong> QR code
-              {displayCount === 1 ? "" : "s"}?
-            </p>
-            <div className="confirm-modal-actions">
-              <button className="confirm-modal-btn cancel" onClick={handleCloseModal}>
-                <CancelIcon /> Cancel
-              </button>
-              <button
-                className="confirm-modal-btn confirm qr-confirm-btn"
-                onClick={handleConfirmGenerate}
-              >
-                <QRIcon /> Generate {displayCount} QR Code{displayCount === 1 ? "" : "s"}
-              </button>
+            <div className="qr-filter-group">
+              <span className="qr-filter-label">Status:</span>
+              <div className="qr-filter-toggle">
+                <button
+                  type="button"
+                  className={`qr-filter-btn ${linkFilter === "all" ? "active" : ""}`}
+                  onClick={() => setLinkFilter("all")}
+                >
+                  All
+                </button>
+                <button
+                  type="button"
+                  className={`qr-filter-btn ${linkFilter === "linked" ? "active" : ""}`}
+                  onClick={() => setLinkFilter("linked")}
+                >
+                  Linked
+                </button>
+                <button
+                  type="button"
+                  className={`qr-filter-btn ${linkFilter === "unlinked" ? "active" : ""}`}
+                  onClick={() => setLinkFilter("unlinked")}
+                >
+                  Unlinked
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )}
 
-      <div className="results-section">
-        <div className="results-header">
-          <h3>QR Codes ({filteredQRCodes.length}{filteredQRCodes.length !== allQRCodes.length ? ` of ${allQRCodes.length}` : ""})</h3>
-          <div className="results-header-actions">
-            <button className="icon-btn icon-btn-generate" onClick={handleGenerateClick}>
-              <QRIcon /> <span>Generate QR</span>
-            </button>
-            <button className="icon-btn" onClick={handlePrintOrDownload}>
-              <PrintIcon /> <span>Print</span>
-            </button>
-            <button className="icon-btn" onClick={handlePrintOrDownload}>
-              <DownloadIcon /> <span>Download</span>
-            </button>
-            <div className="qr-view-toggle">
-              <button
-                type="button"
-                className={`view-toggle-btn ${viewMode === "grid" ? "active" : ""}`}
-                onClick={() => setViewMode("grid")}
-                title="Grid view"
-              >
-                <GridIcon />
-              </button>
-              <button
-                type="button"
-                className={`view-toggle-btn ${viewMode === "list" ? "active" : ""}`}
-                onClick={() => setViewMode("list")}
-                title="List view"
-              >
-                <ListIcon />
-              </button>
-            </div>
-          </div>
-        </div>
+          {viewMode === "list" ? (
+            <div className="qr-table-wrap">
+              <table className="qr-table">
+                <thead>
+                  <tr>
+                    <th>QR</th>
+                    <th>Code</th>
+                    <th>Generated At</th>
+                    <th>Status</th>
+                    <th>Linked To</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredQRCodes.map((qr) => (
+                    <tr key={qr.id}>
+                      <td>
+                        <div className="qr-placeholder-cell">
+                          <QRCodeSVG
+                            value={getQrValue(qr)}
+                            size={48}
+                            level="M"
+                          />
+                        </div>
+                      </td>
+                      <td className="qr-code-cell">{qr.code}</td>
+                      <td>{qr.timestamp}</td>
+                      <td>
+                        <span
+                          className={`qr-status-badge ${qr.linked ? "linked" : "unlinked"}`}
+                        >
+                          {qr.linked ? "Linked" : "Unlinked"}
+                        </span>
+                      </td>
+                      <td>{qr.linked && qr.linkedTo ? qr.linkedTo : "—"}</td>
 
-        <div className="qr-filters">
-          <div className="qr-filter-search">
-            <SearchIcon />
-            <input
-              type="text"
-              placeholder="Search by QR code..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="qr-search-input"
-            />
-          </div>
-          <div className="qr-filter-group">
-            <span className="qr-filter-label">Link:</span>
-            <div className="qr-filter-toggle">
-              <button
-                type="button"
-                className={`qr-filter-btn ${linkFilter === "all" ? "active" : ""}`}
-                onClick={() => setLinkFilter("all")}
-              >
-                All
-              </button>
-              <button
-                type="button"
-                className={`qr-filter-btn ${linkFilter === "linked" ? "active" : ""}`}
-                onClick={() => setLinkFilter("linked")}
-              >
-                Linked
-              </button>
-              <button
-                type="button"
-                className={`qr-filter-btn ${linkFilter === "unlinked" ? "active" : ""}`}
-                onClick={() => setLinkFilter("unlinked")}
-              >
-                Unlinked
-              </button>
+                      <td>
+                        <button
+                          type="button"
+                          className="qr-download-single-btn"
+                          onClick={() => handleDownloadSingle(qr)}
+                          title="Download"
+                        >
+                          <DownloadIcon /> Download
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-          </div>
-          <div className="qr-filter-group">
-            <span className="qr-filter-label">Status:</span>
-            <div className="qr-filter-toggle">
-              <button
-                type="button"
-                className={`qr-filter-btn ${statusFilter === "all" ? "active" : ""}`}
-                onClick={() => setStatusFilter("all")}
-              >
-                All
-              </button>
-              <button
-                type="button"
-                className={`qr-filter-btn ${statusFilter === "active" ? "active" : ""}`}
-                onClick={() => setStatusFilter("active")}
-              >
-                Active
-              </button>
-              <button
-                type="button"
-                className={`qr-filter-btn ${statusFilter === "inactive" ? "active" : ""}`}
-                onClick={() => setStatusFilter("inactive")}
-              >
-                Deactivated
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {viewMode === "list" ? (
-          <div className="qr-table-wrap">
-            <table className="qr-table">
-              <thead>
-                <tr>
-                  <th>QR</th>
-                  <th>Code</th>
-                  <th>Generated At</th>
-                  <th>Link</th>
-                  <th>Status</th>
-                  <th>Linked To</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredQRCodes.map((qr) => (
-                  <tr key={qr.id}>
-                    <td>
-                      <div className="qr-placeholder-cell">
-                        <QRCodeSVG value={`https://hilabi.app/tag/${qr.code}`} size={48} level="M" />
-                      </div>
-                    </td>
-                    <td className="qr-code-cell">{qr.code}</td>
-                    <td>{qr.timestamp}</td>
-                    <td>
-                      <span className={`qr-status-badge ${qr.linked ? "linked" : "unlinked"}`}>
+          ) : (
+            <div className="qr-display qr-grid qr-grid-tags">
+              {filteredQRCodes.map((qr) => (
+                <div key={qr.id} className="qr-item qr-item-tag">
+                  <ParkingTag code={qr.code} qrValue={getQrValue(qr)} />
+                  <div className="qr-item-content qr-tag-meta">
+                    <p className="qr-code">{qr.code}</p>
+                    <div className="qr-card-badge-row">
+                      <span
+                        className={`qr-status-badge ${qr.linked ? "linked" : "unlinked"}`}
+                      >
                         {qr.linked ? "Linked" : "Unlinked"}
                       </span>
-                    </td>
-                    <td>
-                      {renderStatusToggle(qr)}
-                    </td>
-                    <td>{qr.linked && qr.linkedTo ? qr.linkedTo : "—"}</td>
-                    <td>
                       <button
                         type="button"
                         className="qr-download-single-btn"
@@ -408,40 +459,14 @@ const QRManagementPage = () => {
                       >
                         <DownloadIcon /> Download
                       </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        ) : (
-          <div className="qr-display qr-grid qr-grid-tags">
-            {filteredQRCodes.map((qr) => (
-              <div key={qr.id} className="qr-item qr-item-tag">
-                <ParkingTag code={qr.code} />
-                <div className="qr-item-content qr-tag-meta">
-                  <p className="qr-code">{qr.code}</p>
-                  <div className="qr-card-badge-row">
-                    <span className={`qr-status-badge ${qr.linked ? "linked" : "unlinked"}`}>
-                      {qr.linked ? "Linked" : "Unlinked"}
-                    </span>
-                    <button
-                      type="button"
-                      className="qr-download-single-btn"
-                      onClick={() => handleDownloadSingle(qr)}
-                      title="Download"
-                    >
-                      <DownloadIcon /> Download
-                    </button>
+                    </div>
                   </div>
-                  <div className="qr-card-status-wrap">{renderStatusToggle(qr)}</div>
                 </div>
-              </div>
-            ))}
-          </div>
-        )}
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
     </>
   );
 };
