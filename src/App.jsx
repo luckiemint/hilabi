@@ -9,6 +9,7 @@ import TagActivationSuccess from "./pages/Registration/TagActivationSuccess";
 import VisitorDashboard from "./pages/Visitor/VisitorDashboard";
 import EmergencyContactsPage from "./pages/Visitor/EmergencyContactsPage";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminLogin from "./pages/Admin/AdminLogin";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         path="/registration/tag-activation-success"
         element={<TagActivationSuccess />}
       />
+      <Route path="/admin/login" element={<AdminLogin />} />
       <Route path="/admin/dashboard" element={<AdminDashboard />} />
       <Route path="/visitor/dashboard" element={<VisitorDashboard />} />
       <Route

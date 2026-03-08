@@ -43,7 +43,7 @@ const ActivateTag = () => {
 
           {/* Title Section */}
           <div className="title-section">
-            <h1 className="main-title">Welcome to Hilabi</h1>
+            <h1 className="main-title">Welcome to <span className="hilabi-font">Hilabi</span></h1>
             <p className="motto">One tag. One safe connection.</p>
           </div>
 

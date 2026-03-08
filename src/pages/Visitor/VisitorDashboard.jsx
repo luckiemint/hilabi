@@ -639,7 +639,7 @@ const ContactVehiclePages = () => {
       </main>
 
       <footer className="footer">
-        <p>© 2025 Hilabi. All rights reserved.</p>
+        <p>© 2025 <span className="hilabi-font">Hilabi</span>. All rights reserved.</p>
       </footer>
       <style>{`
         .emergency-card {

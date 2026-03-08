@@ -1,0 +1,15 @@
+/* Hilabi branding font - bold, slanted, rounded uppercase */
+.hilabi-logo text {
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-weight: 800 !important;
+  font-style: italic !important;
+}
+
+/* Utility class for Hilabi typography (text usage) */
+.hilabi-font {
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}

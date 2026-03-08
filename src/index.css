@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+/* Hilabi branding font - bold, slanted, rounded uppercase (matches admin login) */
+.hilabi-font {
+  font-family: "Nunito", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}

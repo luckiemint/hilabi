@@ -21,7 +21,7 @@ const Header = () => {
               <path d="M5 9l7-5 7 5" />
             </svg>
           </div>
-          <h1 className="logo-text">Hilabi</h1>
+          <h1 className="logo-text hilabi-font">Hilabi</h1>
         </div>
       </div>
     </header>

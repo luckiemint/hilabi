@@ -15,7 +15,7 @@ function HomePage() {
         <div className="badge">Smart Vehicle Management</div>
 
         <h2 className="hero-title">
-          Welcome to <span className="gradient-text">Hilabi</span>
+          Welcome to <span className="gradient-text hilabi-font">Hilabi</span>
         </h2>
 
         <p className="hero-description">
@@ -259,7 +259,7 @@ function HomePage() {
 
       {/* Footer */}
       <footer className="footer">
-        <p>© 2025 Hilabi. All rights reserved.</p>
+        <p>© 2025 <span className="hilabi-font">Hilabi</span>. All rights reserved.</p>
       </footer>
     </>
   );

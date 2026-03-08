@@ -1,0 +1,123 @@
+.parking-tag {
+  width: 200px;
+  background: #262626;
+  /* border-radius: 8px; */
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.parking-tag-upper {
+  background: #262626;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  padding: 10px 10px 6px;
+  text-align: center;
+}
+
+.parking-tag-brand {
+  font-size: 1.5rem;
+  color: #fff;
+  /* margin: 0 0 14px 0; */
+  letter-spacing: 0.05em;
+}
+
+.parking-tag-qr-frame {
+  position: relative;
+  width: 160px;
+  aspect-ratio: 1;
+  margin: 0 auto 4px;
+  border: 3px solid #fdc409;
+  border-radius: 6px;
+  padding: 12px;
+  background: transparent;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.parking-tag-qr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+}
+
+.parking-tag-qr svg {
+  display: block;
+}
+
+.parking-tag-scan {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: 9.8px;
+  font-weight: 700;
+  color: #fdc409;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.parking-tag-scan-icon {
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.parking-tag-lower {
+  background: #fdc409;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
+  padding: 6px 10px 8px;
+  display: grid;
+  grid-template-columns: repeat(5, auto);
+  align-items: center;
+  justify-items: center;
+}
+
+.parking-tag-bottom-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.parking-tag-bottom-item span {
+  font-size: 0.5rem;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+}
+
+.parking-tag-icons-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.parking-tag-labels-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 0.5rem;
+  font-weight: 700;
+  color: #333;
+  flex-wrap: wrap;
+}
+
+.parking-tag-bottom-icon {
+  flex-shrink: 0;
+}
+
+.parking-tag-bullet {
+  font-size: 0.5rem;
+  color: #333;
+  flex-shrink: 0;
+}
