@@ -705,7 +705,7 @@ const OTPVerification = () => {
 
         .change-number-btn {
           width: 100%;
-          padding: 14px;
+          padding: 8px;
           background: none;
           border: none;
           color: #64748b;

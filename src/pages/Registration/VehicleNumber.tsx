@@ -237,7 +237,7 @@ const VehicleNumber = () => {
           </svg>
         </button>
 
-        <button className="help-btn">
+        {/* <button className="help-btn">
           <svg
             width="18"
             height="18"
@@ -250,7 +250,7 @@ const VehicleNumber = () => {
             <path d="M12 16v-4M12 8h.01" />
           </svg>
           <span>Need Help?</span>
-        </button>
+        </button> */}
       </footer>
 
       <style>{`
@@ -503,7 +503,6 @@ const VehicleNumber = () => {
           justify-content: center;
           gap: 8px;
           transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-          margin-bottom: 12px;
           touch-action: manipulation;
         }
 
