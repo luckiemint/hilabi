@@ -449,12 +449,27 @@ function StickerCard() {
       <rect x="0" y="305" width="270" height="62" rx="0" fill="rgba(212,255,0,0.06)" clipPath="url(#cardClip)" />
       <line x1="0" y1="305" x2="270" y2="305" stroke="rgba(212,255,0,0.15)" strokeWidth="1" />
 
-     
-
-      {/* Label text — perfectly centered under icons */}
-      <text x="135" y="354" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="9.5" fontWeight="500" fill="rgba(255,255,255,0.88)" letterSpacing="0.3">
-        Wrong Parking • Emergency • Urgent Issue
-      </text>
+      {/* Three icons with labels — Wrong Parking | Emergency | Urgent Issue */}
+      <g fill="none" stroke="rgba(212,255,0,0.9)" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        {/* No parking sign — Wrong Parking */}
+        <g transform="translate(55, 322) scale(0.72) translate(-12, -12)">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M4.93 4.93l14.14 14.14" />
+        </g>
+        {/* Alert triangle — Emergency */}
+        <g transform="translate(135, 322) scale(0.72) translate(-12, -12)">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+          <path d="M12 9v4" />
+          <path d="M12 17h.01" />
+        </g>
+        {/* Zap — Urgent Issue */}
+        <g transform="translate(215, 322) scale(0.72) translate(-12, -12)">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+        </g>
+      </g>
+      <text x="55" y="354" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="8.5" fontWeight="500" fill="rgba(255,255,255,0.88)">Wrong Parking</text>
+      <text x="135" y="354" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="8.5" fontWeight="500" fill="rgba(255,255,255,0.88)">Emergency</text>
+      <text x="215" y="354" textAnchor="middle" fontFamily="'Inter', sans-serif" fontSize="8.5" fontWeight="500" fill="rgba(255,255,255,0.88)">Urgent Issue</text>
     </svg>
   );
 }
