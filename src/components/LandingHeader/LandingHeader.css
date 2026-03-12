@@ -35,9 +35,6 @@
   font-style: normal;
 }
 
-.landing-nav-logo.active {
-  box-shadow: 0 1px 0 0 var(--accent);
-}
 
 .landing-nav-links {
   display: flex;

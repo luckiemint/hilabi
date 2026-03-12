@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {  useEffect, useRef } from "react";
 import LandingLayout from "../../components/LandingLayout/LandingLayout";
 import {
   QrCode,
