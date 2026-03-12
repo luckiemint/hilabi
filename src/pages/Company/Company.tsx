@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ArrowRight, Mail, Target, Shield, Zap } from "lucide-react";
 import { useEffect, useRef } from "react";
 import LandingLayout from "../../components/LandingLayout/LandingLayout";
@@ -565,6 +565,19 @@ const VALUES = [
 ];
 
 export default function Company() {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) return;
+    const id = hash.slice(1);
+    const scroll = () => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    const t = setTimeout(scroll, 50);
+    return () => clearTimeout(t);
+  }, [hash]);
+
   return (
     <LandingLayout>
       <style>{pageCss}</style>
@@ -589,7 +602,7 @@ export default function Company() {
       <div className="pg-rule" />
 
       {/* ── ABOUT ── */}
-      <section className="pg-about">
+      <section className="pg-about" id="about">
         <div>
           <p className="pg-about-label">Our story</p>
           <h2>

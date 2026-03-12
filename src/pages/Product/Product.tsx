@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ArrowRight, ScanLine, Bell, ShieldCheck, Smartphone, EyeOff, CheckCircle } from "lucide-react";
 import { useEffect, useRef } from "react";
 import LandingLayout from "../../components/LandingLayout/LandingLayout";
@@ -585,6 +585,19 @@ const PERKS = [
 ];
 
 export default function Product() {
+  const { hash } = useLocation();
+
+  useEffect(() => {
+    if (!hash) return;
+    const id = hash.slice(1);
+    const scroll = () => {
+      const el = document.getElementById(id);
+      if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    };
+    const t = setTimeout(scroll, 50);
+    return () => clearTimeout(t);
+  }, [hash]);
+
   return (
     <LandingLayout>
       <style>{pageCss}</style>
@@ -609,7 +622,7 @@ export default function Product() {
         <div className="pg-rule" />
 
         {/* ── FEATURES ── */}
-        <section className="pg-features">
+        <section className="pg-features" id="features">
           <p className="pg-features-label">Features</p>
           <h2 className="pg-features-title">
             Built for real<br />
