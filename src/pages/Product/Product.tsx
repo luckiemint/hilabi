@@ -577,11 +577,11 @@ const HOW_STEPS = [
 ];
 
 const PERKS = [
-  "One-time payment, no subscription",
-  "Sticker ships within 3 business days",
+  "1-year active protection for your vehicle",
+  "Sticker delivered within 3 business days",
   "Activate your tag in under 2 minutes",
-  "Dashboard access included forever",
-  "Unlimited scans & notifications",
+  "Access your vehicle dashboard anytime",
+  "Unlimited scans & instant notifications",
 ];
 
 export default function Product() {
