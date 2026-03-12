@@ -70,11 +70,14 @@ export default function LandingHeader() {
         <div className="landing-nav-right">
           <button
             className="landing-btn-ghost"
-            onClick={() => go("/visitor/dashboard")}
+            onClick={() => {
+              go("/login");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           >
             Login
           </button>
-          <Link to="/registration/activate" className="landing-btn-pill">
+          <Link to="/get-sticker" className="landing-btn-pill">
             Get Your Sticker
           </Link>
         </div>
@@ -116,12 +119,15 @@ export default function LandingHeader() {
           </button>
           <button
             className="landing-mob-lnk"
-            onClick={() => go("/visitor/dashboard")}
+            onClick={() => {
+              go("/login");
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
           >
             Login
           </button>
           <Link
-            to="/registration/activate"
+            to="/get-sticker"
             className="landing-mob-cta"
             onClick={() => setMob(false)}
           >

@@ -12,10 +12,12 @@ function PageBg() {
     if (!canvas) return;
     const ctx = canvas.getContext("2d")!;
     let raf: number;
-    let W = 0, H = 0;
+    let W = 0,
+      H = 0;
 
     const CELL = 32;
-    const dots: { x: number; y: number; size: number; baseAlpha: number }[] = [];
+    const dots: { x: number; y: number; size: number; baseAlpha: number }[] =
+      [];
 
     const buildDots = () => {
       dots.length = 0;
@@ -50,7 +52,14 @@ function PageBg() {
     const LASER_SPEED = 0.0018;
 
     // ripples spread across full page
-    const ripples: { x: number; y: number; r: number; maxR: number; alpha: number; speed: number }[] = [];
+    const ripples: {
+      x: number;
+      y: number;
+      r: number;
+      maxR: number;
+      alpha: number;
+      speed: number;
+    }[] = [];
     const spawnRipple = () => {
       ripples.push({
         x: W * 0.15 + Math.random() * W * 0.7,
@@ -67,13 +76,25 @@ function PageBg() {
     const ROADS = [{ y: 0 }, { y: 0 }, { y: 0 }]; // 3 roads across full page
 
     type Car = {
-      x: number; y: number; lane: number; road: number;
-      speed: number; scale: number; dir: 1 | -1;
-      color: string; trailLen: number;
-      bobPhase: number; bobAmp: number;
+      x: number;
+      y: number;
+      lane: number;
+      road: number;
+      speed: number;
+      scale: number;
+      dir: 1 | -1;
+      color: string;
+      trailLen: number;
+      bobPhase: number;
+      bobAmp: number;
     };
     const carPool: Car[] = [];
-    const CAR_COLORS = ["rgba(212,255,0,","rgba(180,230,255,","rgba(255,255,255,","rgba(200,255,180,"];
+    const CAR_COLORS = [
+      "rgba(212,255,0,",
+      "rgba(180,230,255,",
+      "rgba(255,255,255,",
+      "rgba(200,255,180,",
+    ];
 
     const initRoadCars = () => {
       ROADS[0].y = H * 0.18;
@@ -88,7 +109,9 @@ function PageBg() {
             carPool.push({
               x: Math.random() * W,
               y: road.y + (lane === 0 ? -12 : 12),
-              lane, road: ri, dir,
+              lane,
+              road: ri,
+              dir,
               speed: 0.55 + Math.random() * 1.0,
               scale: 0.48 + Math.random() * 0.3,
               color: CAR_COLORS[Math.floor(Math.random() * CAR_COLORS.length)],
@@ -116,9 +139,15 @@ function PageBg() {
         ctx.globalAlpha = 0.06 * (1 - ti / 5);
         ctx.fillStyle = color + "1)";
         ctx.beginPath();
-        ctx.moveTo(tx-36,6);ctx.lineTo(tx-36,-3);ctx.lineTo(tx-20,-14);
-        ctx.lineTo(tx-6,-18);ctx.lineTo(tx+16,-18);ctx.lineTo(tx+30,-10);
-        ctx.lineTo(tx+38,-6);ctx.lineTo(tx+38,6);ctx.closePath();
+        ctx.moveTo(tx - 36, 6);
+        ctx.lineTo(tx - 36, -3);
+        ctx.lineTo(tx - 20, -14);
+        ctx.lineTo(tx - 6, -18);
+        ctx.lineTo(tx + 16, -18);
+        ctx.lineTo(tx + 30, -10);
+        ctx.lineTo(tx + 38, -6);
+        ctx.lineTo(tx + 38, 6);
+        ctx.closePath();
         ctx.fill();
       }
       // body
@@ -127,45 +156,109 @@ function PageBg() {
       ctx.strokeStyle = color + "0.85)";
       ctx.lineWidth = 1.3;
       ctx.beginPath();
-      ctx.moveTo(-36,6);ctx.lineTo(-36,-3);ctx.lineTo(-20,-14);
-      ctx.lineTo(-6,-18);ctx.lineTo(16,-18);ctx.lineTo(30,-10);
-      ctx.lineTo(38,-6);ctx.lineTo(38,6);ctx.closePath();
-      ctx.fill();ctx.stroke();
+      ctx.moveTo(-36, 6);
+      ctx.lineTo(-36, -3);
+      ctx.lineTo(-20, -14);
+      ctx.lineTo(-6, -18);
+      ctx.lineTo(16, -18);
+      ctx.lineTo(30, -10);
+      ctx.lineTo(38, -6);
+      ctx.lineTo(38, 6);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
       // cabin
-      ctx.fillStyle="rgba(30,30,35,0.9)";ctx.strokeStyle=color+"0.55)";ctx.lineWidth=0.9;
-      ctx.beginPath();ctx.moveTo(-18,-3);ctx.lineTo(-10,-18);ctx.lineTo(16,-18);ctx.lineTo(22,-3);ctx.closePath();
-      ctx.fill();ctx.stroke();
+      ctx.fillStyle = "rgba(30,30,35,0.9)";
+      ctx.strokeStyle = color + "0.55)";
+      ctx.lineWidth = 0.9;
+      ctx.beginPath();
+      ctx.moveTo(-18, -3);
+      ctx.lineTo(-10, -18);
+      ctx.lineTo(16, -18);
+      ctx.lineTo(22, -3);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
       // windows
-      ctx.fillStyle=color+"0.1)";ctx.strokeStyle=color+"0.28)";ctx.lineWidth=0.6;
-      ctx.beginPath();ctx.moveTo(-16,-4);ctx.lineTo(-9,-17);ctx.lineTo(-1,-17);ctx.lineTo(-2,-4);ctx.closePath();ctx.fill();ctx.stroke();
-      ctx.beginPath();ctx.moveTo(20,-4);ctx.lineTo(18,-17);ctx.lineTo(13,-17);ctx.lineTo(11,-4);ctx.closePath();ctx.fill();ctx.stroke();
+      ctx.fillStyle = color + "0.1)";
+      ctx.strokeStyle = color + "0.28)";
+      ctx.lineWidth = 0.6;
+      ctx.beginPath();
+      ctx.moveTo(-16, -4);
+      ctx.lineTo(-9, -17);
+      ctx.lineTo(-1, -17);
+      ctx.lineTo(-2, -4);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(20, -4);
+      ctx.lineTo(18, -17);
+      ctx.lineTo(13, -17);
+      ctx.lineTo(11, -4);
+      ctx.closePath();
+      ctx.fill();
+      ctx.stroke();
       // wheels
-      ctx.fillStyle="rgba(20,20,22,1)";ctx.strokeStyle=color+"0.65)";ctx.lineWidth=1.4;
-      [-22,24].forEach(wx=>{
-        ctx.beginPath();ctx.arc(wx,8,7,0,Math.PI*2);ctx.fill();ctx.stroke();
-        ctx.fillStyle=color+"0.35)";ctx.beginPath();ctx.arc(wx,8,3,0,Math.PI*2);ctx.fill();
-        ctx.fillStyle="rgba(20,20,22,1)";
+      ctx.fillStyle = "rgba(20,20,22,1)";
+      ctx.strokeStyle = color + "0.65)";
+      ctx.lineWidth = 1.4;
+      [-22, 24].forEach((wx) => {
+        ctx.beginPath();
+        ctx.arc(wx, 8, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.stroke();
+        ctx.fillStyle = color + "0.35)";
+        ctx.beginPath();
+        ctx.arc(wx, 8, 3, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = "rgba(20,20,22,1)";
       });
       // headlight glow
-      ctx.globalAlpha=baseAlpha*1.1;
-      const hg=ctx.createRadialGradient(38,-2,0,38,-2,26);
-      hg.addColorStop(0,color+"0.5)");hg.addColorStop(1,color+"0)");
-      ctx.fillStyle=hg;
-      ctx.beginPath();ctx.moveTo(38,-2);ctx.lineTo(64,-16);ctx.lineTo(64,12);ctx.closePath();ctx.fill();
-      ctx.fillStyle=color+"0.92)";ctx.beginPath();ctx.ellipse(37,-2,3,2,0,0,Math.PI*2);ctx.fill();
-      ctx.fillStyle=color+"0.45)";ctx.beginPath();ctx.ellipse(36,3,2.5,1.5,0,0,Math.PI*2);ctx.fill();
+      ctx.globalAlpha = baseAlpha * 1.1;
+      const hg = ctx.createRadialGradient(38, -2, 0, 38, -2, 26);
+      hg.addColorStop(0, color + "0.5)");
+      hg.addColorStop(1, color + "0)");
+      ctx.fillStyle = hg;
+      ctx.beginPath();
+      ctx.moveTo(38, -2);
+      ctx.lineTo(64, -16);
+      ctx.lineTo(64, 12);
+      ctx.closePath();
+      ctx.fill();
+      ctx.fillStyle = color + "0.92)";
+      ctx.beginPath();
+      ctx.ellipse(37, -2, 3, 2, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = color + "0.45)";
+      ctx.beginPath();
+      ctx.ellipse(36, 3, 2.5, 1.5, 0, 0, Math.PI * 2);
+      ctx.fill();
       // taillights
-      ctx.globalAlpha=baseAlpha*0.8;
-      ctx.fillStyle="rgba(255,60,60,0.82)";ctx.beginPath();ctx.ellipse(-35,-2,2.5,2,0,0,Math.PI*2);ctx.fill();
-      ctx.fillStyle="rgba(255,80,80,0.45)";ctx.beginPath();ctx.ellipse(-35,3,2,1.5,0,0,Math.PI*2);ctx.fill();
-      const tg=ctx.createRadialGradient(-36,0,0,-36,0,20);
-      tg.addColorStop(0,"rgba(255,50,50,0.22)");tg.addColorStop(1,"rgba(255,50,50,0)");
-      ctx.fillStyle=tg;ctx.beginPath();ctx.moveTo(-36,0);ctx.lineTo(-56,-12);ctx.lineTo(-56,12);ctx.closePath();ctx.fill();
+      ctx.globalAlpha = baseAlpha * 0.8;
+      ctx.fillStyle = "rgba(255,60,60,0.82)";
+      ctx.beginPath();
+      ctx.ellipse(-35, -2, 2.5, 2, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = "rgba(255,80,80,0.45)";
+      ctx.beginPath();
+      ctx.ellipse(-35, 3, 2, 1.5, 0, 0, Math.PI * 2);
+      ctx.fill();
+      const tg = ctx.createRadialGradient(-36, 0, 0, -36, 0, 20);
+      tg.addColorStop(0, "rgba(255,50,50,0.22)");
+      tg.addColorStop(1, "rgba(255,50,50,0)");
+      ctx.fillStyle = tg;
+      ctx.beginPath();
+      ctx.moveTo(-36, 0);
+      ctx.lineTo(-56, -12);
+      ctx.lineTo(-56, 12);
+      ctx.closePath();
+      ctx.fill();
       ctx.restore();
     };
 
     const drawRoads = () => {
-      ROADS.forEach(road => {
+      ROADS.forEach((road) => {
         ctx.globalAlpha = 0.035;
         ctx.fillStyle = "rgba(212,255,0,1)";
         ctx.fillRect(0, road.y - 28, W, 56);
@@ -174,8 +267,12 @@ function PageBg() {
         ctx.lineWidth = 1;
         ctx.setLineDash([18, 22]);
         ctx.lineDashOffset = -(t * 0.7) % 40;
-        ctx.beginPath();ctx.moveTo(0, road.y);ctx.lineTo(W, road.y);ctx.stroke();
-        ctx.setLineDash([]);ctx.lineDashOffset = 0;
+        ctx.beginPath();
+        ctx.moveTo(0, road.y);
+        ctx.lineTo(W, road.y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.lineDashOffset = 0;
       });
       ctx.globalAlpha = 1;
     };
@@ -196,7 +293,8 @@ function PageBg() {
       // dot grid
       dots.forEach((d) => {
         const dist = Math.abs(d.y - laserY);
-        const lit = dist < 90 ? d.baseAlpha + (1 - dist / 90) * 0.18 : d.baseAlpha;
+        const lit =
+          dist < 90 ? d.baseAlpha + (1 - dist / 90) * 0.18 : d.baseAlpha;
         ctx.globalAlpha = lit;
         ctx.fillStyle = "#d4ff00";
         ctx.fillRect(d.x - d.size / 2, d.y - d.size / 2, d.size, d.size);
@@ -204,7 +302,12 @@ function PageBg() {
 
       // laser beam
       ctx.globalAlpha = 1;
-      const lg = ctx.createLinearGradient(W / 2 - laserHW, laserY, W / 2 + laserHW, laserY);
+      const lg = ctx.createLinearGradient(
+        W / 2 - laserHW,
+        laserY,
+        W / 2 + laserHW,
+        laserY,
+      );
       lg.addColorStop(0, "rgba(212,255,0,0)");
       lg.addColorStop(0.5, "rgba(212,255,0,0.14)");
       lg.addColorStop(1, "rgba(212,255,0,0)");
@@ -221,7 +324,12 @@ function PageBg() {
         { cx: W * 0.78, cy: H * 0.78 },
       ];
       const bSz = 16;
-      const bDirs: [number, number][] = [[1,1],[-1,1],[1,-1],[-1,-1]];
+      const bDirs: [number, number][] = [
+        [1, 1],
+        [-1, 1],
+        [1, -1],
+        [-1, -1],
+      ];
       ctx.strokeStyle = "#d4ff00";
       ctx.lineWidth = 2;
       bracketSets.forEach(({ cx, cy }, si) => {
@@ -237,12 +345,18 @@ function PageBg() {
 
       // ripples
       rippleTimer++;
-      if (rippleTimer > 90) { spawnRipple(); rippleTimer = 0; }
+      if (rippleTimer > 90) {
+        spawnRipple();
+        rippleTimer = 0;
+      }
       for (let i = ripples.length - 1; i >= 0; i--) {
         const rp = ripples[i];
         rp.r += rp.speed;
         rp.alpha *= 0.978;
-        if (rp.r > rp.maxR || rp.alpha < 0.01) { ripples.splice(i, 1); continue; }
+        if (rp.r > rp.maxR || rp.alpha < 0.01) {
+          ripples.splice(i, 1);
+          continue;
+        }
         ctx.globalAlpha = rp.alpha;
         ctx.strokeStyle = "rgba(212,255,0,1)";
         ctx.lineWidth = 1;
@@ -304,7 +418,7 @@ const pageCss = `
 /* ── PAGE WRAP ── */
 .pg-page-wrap { position: relative; z-index: 1; }
 .pg-hero {
-  padding: 160px 60px 100px;
+  padding: 120px 60px 100px;
   text-align: center;
   max-width: 860px;
   margin: 0 auto;
@@ -583,94 +697,117 @@ export default function Company() {
       <style>{pageCss}</style>
       <PageBg />
       <div className="pg-page-wrap">
-
-      {/* ── HERO ── */}
-      <section className="pg-hero">
-        <div className="pg-eyebrow">
-          <span className="pg-edot" />
-          <span>About Hilabi</span>
-        </div>
-        <h1>
-          Built for the<br />
-          <em>moments that matter.</em>
-        </h1>
-        <p>
-          We're building Hilabi to make vehicle communication simple, private, and instant — one scan at a time.
-        </p>
-      </section>
-
-      <div className="pg-rule" />
-
-      {/* ── ABOUT ── */}
-      <section className="pg-about" id="about">
-        <div>
-          <p className="pg-about-label">Our story</p>
-          <h2>
-            Simple idea.<br />
-            <span>Real impact.</span>
-          </h2>
-        </div>
-        <div className="pg-about-body">
+        {/* ── HERO ── */}
+        <section className="pg-hero">
+          <div className="pg-eyebrow">
+            <span className="pg-edot" />
+            <span>About Hilabi</span>
+          </div>
+          <h1>
+            Built for the
+            <br />
+            <em>moments that matter.</em>
+          </h1>
           <p>
-            Hilabi is a vehicle QR tag system that connects drivers with anyone who needs to reach them. Wrong parking, emergencies, accidents — we believe contacting a vehicle owner should be quick and stress-free.
+            We're building Hilabi to make vehicle communication simple, private,
+            and instant — one scan at a time.
           </p>
-          <p>
-            Our mission is to remove friction from these everyday moments. One scan, no app required, your phone number stays completely private. We're committed to privacy-first design and simple, reliable technology that works for everyone.
-          </p>
-          <p>
-            We started Hilabi because we experienced the frustration ourselves — circling a parking lot trying to find an owner, or being stuck behind an improperly parked car with no way to help. There had to be a better way.
-          </p>
-        </div>
-      </section>
+        </section>
 
-      {/* ── VALUES GRID ── */}
-      <section className="pg-values">
-        <div className="pg-values-grid">
-          {VALUES.map(({ Icon, h, p }) => (
-            <div key={h} className="pg-val-card">
-              <div className="pg-val-icon"><Icon size={22} /></div>
-              <h3>{h}</h3>
-              <p>{p}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+        <div className="pg-rule" />
 
-      {/* ── CONTACT ── */}
-      <div className="pg-contact-wrap">
-        <section className="pg-contact" id="contact">
+        {/* ── ABOUT ── */}
+        <section className="pg-about" id="about">
           <div>
-            <p className="pg-contact-label">Get in touch</p>
-            <h2>We'd love to<br />hear from you.</h2>
+            <p className="pg-about-label">Our story</p>
+            <h2>
+              Simple idea.
+              <br />
+              <span>Real impact.</span>
+            </h2>
+          </div>
+          <div className="pg-about-body">
             <p>
-              Have questions, feedback, or partnership ideas? Our team reads every message and gets back to you personally.
+              Hilabi is a vehicle QR tag system that connects drivers with
+              anyone who needs to reach them. Wrong parking, emergencies,
+              accidents — we believe contacting a vehicle owner should be quick
+              and stress-free.
+            </p>
+            <p>
+              Our mission is to remove friction from these everyday moments. One
+              scan, no app required, your phone number stays completely private.
+              We're committed to privacy-first design and simple, reliable
+              technology that works for everyone.
+            </p>
+            <p>
+              We started Hilabi because we experienced the frustration ourselves
+              — circling a parking lot trying to find an owner, or being stuck
+              behind an improperly parked car with no way to help. There had to
+              be a better way.
             </p>
           </div>
-          <div className="pg-contact-card">
-            <div className="pg-contact-icon"><Mail size={22} /></div>
-            <div>
-              <p className="pg-contact-card-label">Email us</p>
-              <a href="mailto:hilabi.app@gmail.com">hilabi.app@gmail.com</a>
-            </div>
+        </section>
+
+        {/* ── VALUES GRID ── */}
+        <section className="pg-values">
+          <div className="pg-values-grid">
+            {VALUES.map(({ Icon, h, p }) => (
+              <div key={h} className="pg-val-card">
+                <div className="pg-val-icon">
+                  <Icon size={22} />
+                </div>
+                <h3>{h}</h3>
+                <p>{p}</p>
+              </div>
+            ))}
           </div>
         </section>
-      </div>
 
-      {/* ── CTA ── */}
-      <section className="pg-cta">
-        <p className="pg-cta-eye">Ready to get started?</p>
-        <h2>
-          One sticker.<br />
-          <span>Endless peace of mind.</span>
-        </h2>
-        <p>
-          Join thousands of drivers who've already made their vehicles reachable — privately and instantly.
-        </p>
-        <Link to="/registration/activate" className="pg-cta-btn">
-          Get Your Sticker <ArrowRight size={16} />
-        </Link>
-      </section>
-      </div>{/* end pg-page-wrap */}
+        {/* ── CONTACT ── */}
+        <div className="pg-contact-wrap">
+          <section className="pg-contact" id="contact">
+            <div>
+              <p className="pg-contact-label">Get in touch</p>
+              <h2>
+                We'd love to
+                <br />
+                hear from you.
+              </h2>
+              <p>
+                Have questions, feedback, or partnership ideas? Our team reads
+                every message and gets back to you personally.
+              </p>
+            </div>
+            <div className="pg-contact-card">
+              <div className="pg-contact-icon">
+                <Mail size={22} />
+              </div>
+              <div>
+                <p className="pg-contact-card-label">Email us</p>
+                <a href="mailto:hilabi.app@gmail.com">hilabi.app@gmail.com</a>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        {/* ── CTA ── */}
+        <section className="pg-cta">
+          <p className="pg-cta-eye">Ready to get started?</p>
+          <h2>
+            One sticker.
+            <br />
+            <span>Endless peace of mind.</span>
+          </h2>
+          <p>
+            Join thousands of drivers who've already made their vehicles
+            reachable — privately and instantly.
+          </p>
+          <Link to="/registration/activate" className="pg-cta-btn">
+            Get Your Sticker <ArrowRight size={16} />
+          </Link>
+        </section>
+      </div>
+      {/* end pg-page-wrap */}
     </LandingLayout>
   );
 }

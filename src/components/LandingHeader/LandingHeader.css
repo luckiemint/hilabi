@@ -135,7 +135,7 @@
   background: none;
   border: none;
   cursor: pointer;
-  color: var(--muted);
+  color: #fff;
 }
 
 .landing-mob-lnk {
@@ -145,7 +145,7 @@
   font-family: var(--dsp);
   font-size: 34px;
   font-weight: 800;
-  color: rgba(245, 244, 241, 0.35);
+  color: #fff;
   letter-spacing: -0.03em;
   padding: 10px 20px;
   transition: color 0.2s;

@@ -38,7 +38,7 @@ body { background: var(--bg); color: var(--white); font-family: var(--body); -we
 /* HERO */
 .hero {
   min-height: 100vh;
-  padding: 100px 60px 80px;
+  padding: 120px 60px 60px;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
   text-align: center; position: relative; overflow: hidden;
 }

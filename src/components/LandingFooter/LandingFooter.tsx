@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Twitter, Linkedin, Instagram, Phone } from "lucide-react";
+import { Twitter, Linkedin, Instagram } from "lucide-react";
 import "./LandingFooter.css";
 
 export default function LandingFooter() {
@@ -45,8 +45,8 @@ export default function LandingFooter() {
             <h4>Have a question?</h4>
             <p>Leave your phone number and we&apos;ll get back to you shortly.</p>
             <div className="landing-nl-field">
-              <Phone size={15} />
-              <input type="tel" placeholder="+1 (555) 000-0000" />
+              <span className="landing-nl-country">IN +91</span>
+              <input type="tel" placeholder="98765 43210" />
             </div>
             <button className="landing-nl-sub" type="button">
               Request a Call

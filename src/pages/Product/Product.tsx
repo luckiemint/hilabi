@@ -272,7 +272,7 @@ const pageCss = `
 
 /* ── HERO ── */
 .pg-hero {
-  padding: 160px 60px 100px;
+  padding: 120px 60px 100px;
   text-align: center;
   max-width: 860px;
   margin: 0 auto;
@@ -513,7 +513,8 @@ const pageCss = `
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
-  .pg-hero { padding: 140px 24px 80px; }
+  .pg-hero { padding: 80px 24px 80px; }
+  .pg-hero h1 { font-size: clamp(28px, 8vw, 52px); }
   .pg-features, .pg-how, .pg-pricing { padding: 80px 24px; }
   .pg-features-grid { grid-template-columns: 1fr; }
   .pg-steps-row { grid-template-columns: 1fr; }

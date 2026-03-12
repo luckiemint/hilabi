@@ -119,7 +119,8 @@
   margin-bottom: 8px;
 }
 
-.landing-nl-field svg {
+.landing-nl-country {
+  font-size: 13px;
   color: var(--muted);
   flex-shrink: 0;
 }

@@ -12,11 +12,15 @@ import VisitorDashboard from "./pages/Visitor/VisitorDashboard";
 import EmergencyContactsPage from "./pages/Visitor/EmergencyContactsPage";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import AdminLogin from "./pages/Admin/AdminLogin";
+import Login from "./pages/Login/Login";
+import GetSticker from "./pages/GetSticker/GetSticker";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/get-sticker" element={<GetSticker />} />
       <Route path="/product" element={<ProductPage />} />
       <Route path="/company" element={<CompanyPage />} />
       <Route path="/owner/dashboard" element={<DashboardView />} />
