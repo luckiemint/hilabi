@@ -529,7 +529,7 @@ const PhoneVerification = () => {
 
         .notice-text p {
           font-size: 0.8125rem;
-          color: #64748b;
+          color: #ffffff;
           line-height: 1.4;
           margin: 0;
         }

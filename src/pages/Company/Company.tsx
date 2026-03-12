@@ -1,0 +1,663 @@
+import { Link } from "react-router-dom";
+import { ArrowRight, Mail, Target, Shield, Zap } from "lucide-react";
+import { useEffect, useRef } from "react";
+import LandingLayout from "../../components/LandingLayout/LandingLayout";
+
+/* ─── BACKGROUND CANVAS — same system as Home page ─── */
+function PageBg() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d")!;
+    let raf: number;
+    let W = 0, H = 0;
+
+    const CELL = 32;
+    const dots: { x: number; y: number; size: number; baseAlpha: number }[] = [];
+
+    const buildDots = () => {
+      dots.length = 0;
+      const cols = Math.ceil(W / CELL) + 2;
+      const rows = Math.ceil(H / CELL) + 2;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (Math.random() > 0.54) {
+            dots.push({
+              x: c * CELL - CELL / 2,
+              y: r * CELL - CELL / 2,
+              size: Math.random() * 2.5 + 1.5,
+              baseAlpha: Math.random() * 0.07 + 0.02,
+            });
+          }
+        }
+      }
+    };
+
+    const resize = () => {
+      W = canvas.width = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+      buildDots();
+    };
+
+    const ro = new ResizeObserver(resize);
+    ro.observe(canvas);
+    resize();
+
+    // smooth ping-pong laser
+    let laserPos = 0;
+    const LASER_SPEED = 0.0018;
+
+    // ripples spread across full page
+    const ripples: { x: number; y: number; r: number; maxR: number; alpha: number; speed: number }[] = [];
+    const spawnRipple = () => {
+      ripples.push({
+        x: W * 0.15 + Math.random() * W * 0.7,
+        y: H * 0.1 + Math.random() * H * 0.8,
+        r: 0,
+        maxR: 100 + Math.random() * 120,
+        alpha: 0.22,
+        speed: 0.6 + Math.random() * 0.5,
+      });
+    };
+    let rippleTimer = 0;
+
+    // ── ROAD & CAR SYSTEM ──
+    const ROADS = [{ y: 0 }, { y: 0 }, { y: 0 }]; // 3 roads across full page
+
+    type Car = {
+      x: number; y: number; lane: number; road: number;
+      speed: number; scale: number; dir: 1 | -1;
+      color: string; trailLen: number;
+      bobPhase: number; bobAmp: number;
+    };
+    const carPool: Car[] = [];
+    const CAR_COLORS = ["rgba(212,255,0,","rgba(180,230,255,","rgba(255,255,255,","rgba(200,255,180,"];
+
+    const initRoadCars = () => {
+      ROADS[0].y = H * 0.18;
+      ROADS[1].y = H * 0.52;
+      ROADS[2].y = H * 0.82;
+      carPool.length = 0;
+      ROADS.forEach((road, ri) => {
+        for (let lane = 0; lane < 2; lane++) {
+          const dir = (lane % 2 === 0 ? 1 : -1) as 1 | -1;
+          const count = 1;
+          for (let ci = 0; ci < count; ci++) {
+            carPool.push({
+              x: Math.random() * W,
+              y: road.y + (lane === 0 ? -12 : 12),
+              lane, road: ri, dir,
+              speed: 0.55 + Math.random() * 1.0,
+              scale: 0.48 + Math.random() * 0.3,
+              color: CAR_COLORS[Math.floor(Math.random() * CAR_COLORS.length)],
+              trailLen: 28 + Math.floor(Math.random() * 30),
+              bobPhase: Math.random() * Math.PI * 2,
+              bobAmp: 0.3 + Math.random() * 0.5,
+            });
+          }
+        }
+      });
+    };
+
+    const drawDetailedCar = (car: Car) => {
+      const { x, y, scale, dir, color, bobPhase, bobAmp } = car;
+      const bob = Math.sin(t * 0.04 + bobPhase) * bobAmp;
+      const cy = y + bob;
+      const baseAlpha = 0.5;
+      ctx.save();
+      ctx.translate(x, cy);
+      if (dir === -1) ctx.scale(-1, 1);
+      ctx.scale(scale, scale);
+      // trail
+      for (let ti = 1; ti <= 4; ti++) {
+        const tx = -(ti * 7);
+        ctx.globalAlpha = 0.06 * (1 - ti / 5);
+        ctx.fillStyle = color + "1)";
+        ctx.beginPath();
+        ctx.moveTo(tx-36,6);ctx.lineTo(tx-36,-3);ctx.lineTo(tx-20,-14);
+        ctx.lineTo(tx-6,-18);ctx.lineTo(tx+16,-18);ctx.lineTo(tx+30,-10);
+        ctx.lineTo(tx+38,-6);ctx.lineTo(tx+38,6);ctx.closePath();
+        ctx.fill();
+      }
+      // body
+      ctx.globalAlpha = baseAlpha;
+      ctx.fillStyle = "rgba(15,15,18,0.88)";
+      ctx.strokeStyle = color + "0.85)";
+      ctx.lineWidth = 1.3;
+      ctx.beginPath();
+      ctx.moveTo(-36,6);ctx.lineTo(-36,-3);ctx.lineTo(-20,-14);
+      ctx.lineTo(-6,-18);ctx.lineTo(16,-18);ctx.lineTo(30,-10);
+      ctx.lineTo(38,-6);ctx.lineTo(38,6);ctx.closePath();
+      ctx.fill();ctx.stroke();
+      // cabin
+      ctx.fillStyle="rgba(30,30,35,0.9)";ctx.strokeStyle=color+"0.55)";ctx.lineWidth=0.9;
+      ctx.beginPath();ctx.moveTo(-18,-3);ctx.lineTo(-10,-18);ctx.lineTo(16,-18);ctx.lineTo(22,-3);ctx.closePath();
+      ctx.fill();ctx.stroke();
+      // windows
+      ctx.fillStyle=color+"0.1)";ctx.strokeStyle=color+"0.28)";ctx.lineWidth=0.6;
+      ctx.beginPath();ctx.moveTo(-16,-4);ctx.lineTo(-9,-17);ctx.lineTo(-1,-17);ctx.lineTo(-2,-4);ctx.closePath();ctx.fill();ctx.stroke();
+      ctx.beginPath();ctx.moveTo(20,-4);ctx.lineTo(18,-17);ctx.lineTo(13,-17);ctx.lineTo(11,-4);ctx.closePath();ctx.fill();ctx.stroke();
+      // wheels
+      ctx.fillStyle="rgba(20,20,22,1)";ctx.strokeStyle=color+"0.65)";ctx.lineWidth=1.4;
+      [-22,24].forEach(wx=>{
+        ctx.beginPath();ctx.arc(wx,8,7,0,Math.PI*2);ctx.fill();ctx.stroke();
+        ctx.fillStyle=color+"0.35)";ctx.beginPath();ctx.arc(wx,8,3,0,Math.PI*2);ctx.fill();
+        ctx.fillStyle="rgba(20,20,22,1)";
+      });
+      // headlight glow
+      ctx.globalAlpha=baseAlpha*1.1;
+      const hg=ctx.createRadialGradient(38,-2,0,38,-2,26);
+      hg.addColorStop(0,color+"0.5)");hg.addColorStop(1,color+"0)");
+      ctx.fillStyle=hg;
+      ctx.beginPath();ctx.moveTo(38,-2);ctx.lineTo(64,-16);ctx.lineTo(64,12);ctx.closePath();ctx.fill();
+      ctx.fillStyle=color+"0.92)";ctx.beginPath();ctx.ellipse(37,-2,3,2,0,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle=color+"0.45)";ctx.beginPath();ctx.ellipse(36,3,2.5,1.5,0,0,Math.PI*2);ctx.fill();
+      // taillights
+      ctx.globalAlpha=baseAlpha*0.8;
+      ctx.fillStyle="rgba(255,60,60,0.82)";ctx.beginPath();ctx.ellipse(-35,-2,2.5,2,0,0,Math.PI*2);ctx.fill();
+      ctx.fillStyle="rgba(255,80,80,0.45)";ctx.beginPath();ctx.ellipse(-35,3,2,1.5,0,0,Math.PI*2);ctx.fill();
+      const tg=ctx.createRadialGradient(-36,0,0,-36,0,20);
+      tg.addColorStop(0,"rgba(255,50,50,0.22)");tg.addColorStop(1,"rgba(255,50,50,0)");
+      ctx.fillStyle=tg;ctx.beginPath();ctx.moveTo(-36,0);ctx.lineTo(-56,-12);ctx.lineTo(-56,12);ctx.closePath();ctx.fill();
+      ctx.restore();
+    };
+
+    const drawRoads = () => {
+      ROADS.forEach(road => {
+        ctx.globalAlpha = 0.035;
+        ctx.fillStyle = "rgba(212,255,0,1)";
+        ctx.fillRect(0, road.y - 28, W, 56);
+        ctx.globalAlpha = 0.055;
+        ctx.strokeStyle = "rgba(212,255,0,1)";
+        ctx.lineWidth = 1;
+        ctx.setLineDash([18, 22]);
+        ctx.lineDashOffset = -(t * 0.7) % 40;
+        ctx.beginPath();ctx.moveTo(0, road.y);ctx.lineTo(W, road.y);ctx.stroke();
+        ctx.setLineDash([]);ctx.lineDashOffset = 0;
+      });
+      ctx.globalAlpha = 1;
+    };
+    // ── END ROAD & CAR SYSTEM ──
+
+    let t = 0;
+    const draw = () => {
+      t++;
+      if (t === 1) initRoadCars();
+      ctx.clearRect(0, 0, W, H);
+
+      // laser
+      laserPos = (laserPos + LASER_SPEED) % 1;
+      const easedPos = (1 - Math.cos(laserPos * Math.PI * 2)) / 2;
+      const laserY = -60 + easedPos * (H + 120);
+      const laserHW = Math.min(W * 0.55, 340);
+
+      // dot grid
+      dots.forEach((d) => {
+        const dist = Math.abs(d.y - laserY);
+        const lit = dist < 90 ? d.baseAlpha + (1 - dist / 90) * 0.18 : d.baseAlpha;
+        ctx.globalAlpha = lit;
+        ctx.fillStyle = "#d4ff00";
+        ctx.fillRect(d.x - d.size / 2, d.y - d.size / 2, d.size, d.size);
+      });
+
+      // laser beam
+      ctx.globalAlpha = 1;
+      const lg = ctx.createLinearGradient(W / 2 - laserHW, laserY, W / 2 + laserHW, laserY);
+      lg.addColorStop(0, "rgba(212,255,0,0)");
+      lg.addColorStop(0.5, "rgba(212,255,0,0.14)");
+      lg.addColorStop(1, "rgba(212,255,0,0)");
+      ctx.fillStyle = lg;
+      ctx.fillRect(W / 2 - laserHW, laserY - 1.5, laserHW * 2, 3);
+
+      // QR brackets at section breakpoints
+      const bracketSets = [
+        { cx: W * 0.18, cy: H * 0.12 },
+        { cx: W * 0.82, cy: H * 0.12 },
+        { cx: W * 0.08, cy: H * 0.45 },
+        { cx: W * 0.92, cy: H * 0.45 },
+        { cx: W * 0.22, cy: H * 0.78 },
+        { cx: W * 0.78, cy: H * 0.78 },
+      ];
+      const bSz = 16;
+      const bDirs: [number, number][] = [[1,1],[-1,1],[1,-1],[-1,-1]];
+      ctx.strokeStyle = "#d4ff00";
+      ctx.lineWidth = 2;
+      bracketSets.forEach(({ cx, cy }, si) => {
+        ctx.globalAlpha = 0.1 + 0.04 * Math.sin(t * 0.018 + si * 1.1);
+        bDirs.forEach(([dx, dy]) => {
+          ctx.beginPath();
+          ctx.moveTo(cx, cy + dy * bSz);
+          ctx.lineTo(cx, cy);
+          ctx.lineTo(cx + dx * bSz, cy);
+          ctx.stroke();
+        });
+      });
+
+      // ripples
+      rippleTimer++;
+      if (rippleTimer > 90) { spawnRipple(); rippleTimer = 0; }
+      for (let i = ripples.length - 1; i >= 0; i--) {
+        const rp = ripples[i];
+        rp.r += rp.speed;
+        rp.alpha *= 0.978;
+        if (rp.r > rp.maxR || rp.alpha < 0.01) { ripples.splice(i, 1); continue; }
+        ctx.globalAlpha = rp.alpha;
+        ctx.strokeStyle = "rgba(212,255,0,1)";
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(rp.x, rp.y, rp.r, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // roads + detailed cars
+      drawRoads();
+      carPool.forEach((car) => {
+        car.x += car.speed * car.dir;
+        if (car.dir === 1 && car.x > W + 160) car.x = -160;
+        if (car.dir === -1 && car.x < -160) car.x = W + 160;
+        drawDetailedCar(car);
+      });
+
+      ctx.globalAlpha = 1;
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      cancelAnimationFrame(raf);
+      ro.disconnect();
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        position: "fixed",
+        inset: 0,
+        width: "100%",
+        height: "100%",
+        pointerEvents: "none",
+        zIndex: 0,
+      }}
+    />
+  );
+}
+
+const pageCss = `
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;500&display=swap');
+
+:root {
+  --bg:    #080809;
+  --surf:  #111113;
+  --surf2: #19191c;
+  --border: rgba(255,255,255,0.07);
+  --white: #f5f4f1;
+  --muted: rgba(245,244,241,0.55);
+  --accent: #e8ff50;
+  --dsp:   'Syne', sans-serif;
+  --body:  'Inter', sans-serif;
+}
+
+/* ── PAGE WRAP ── */
+.pg-page-wrap { position: relative; z-index: 1; }
+.pg-hero {
+  padding: 160px 60px 100px;
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+  position: relative;
+}
+.pg-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  border: 1px solid rgba(212,255,0,.2); background: rgba(212,255,0,.06);
+  border-radius: 40px; padding: 7px 18px 7px 12px;
+  margin-bottom: 32px;
+  opacity: 0; animation: pgUp .55s .1s ease forwards;
+}
+.pg-edot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+.pg-eyebrow span { font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
+
+.pg-hero h1 {
+  font-family: var(--dsp);
+  font-size: clamp(52px, 7vw, 88px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 1.02;
+  margin-bottom: 28px;
+  opacity: 0; animation: pgUp .6s .25s ease forwards;
+}
+.pg-hero h1 em { color: var(--accent); font-style: normal; }
+.pg-hero p {
+  font-size: clamp(16px, 1.6vw, 19px);
+  color: #ffffff;
+  line-height: 1.8;
+  font-weight: 300;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+/* ── DIVIDER LINE ── */
+.pg-rule {
+  width: 100%; height: 1px;
+  background: var(--border);
+}
+
+/* ── ABOUT SECTION ── */
+.pg-about {
+  padding: 100px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.pg-about-label {
+  font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 24px;
+}
+.pg-about h2 {
+  font-family: var(--dsp);
+  font-size: clamp(36px, 4.5vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+  margin-bottom: 0;
+}
+.pg-about h2 span { color: rgba(160,220,255,0.45); }
+.pg-about-body p {
+  font-size: 16px;
+  color: #ffffff;
+  line-height: 1.85;
+  font-weight: 300;
+  margin-bottom: 18px;
+}
+.pg-about-body p:last-child { margin-bottom: 0; }
+
+/* ── VALUES GRID ── */
+.pg-values {
+  padding: 0 60px 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.pg-values-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+}
+.pg-val-card {
+  background: var(--surf);
+  padding: 44px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: background .3s;
+}
+.pg-val-card:hover { background: var(--surf2); }
+.pg-val-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: transparent; transition: background .3s;
+}
+.pg-val-card:hover::before {
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+}
+.pg-val-icon {
+  width: 46px; height: 46px; border-radius: 13px;
+  background: rgba(212,255,0,.07); border: 1px solid rgba(212,255,0,.18);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px;
+}
+.pg-val-icon svg { color: var(--accent); }
+.pg-val-card h3 {
+  font-family: var(--dsp); font-size: 20px; font-weight: 700;
+  letter-spacing: -.025em; margin-bottom: 12px;
+}
+.pg-val-card p { font-size: 14px; color: #ffffff; line-height: 1.8; font-weight: 300; }
+
+/* ── CONTACT SECTION ── */
+.pg-contact-wrap {
+  background: var(--surf);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.pg-contact {
+  padding: 100px 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+.pg-contact-label {
+  font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 24px;
+}
+.pg-contact h2 {
+  font-family: var(--dsp);
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.06;
+  margin-bottom: 16px;
+}
+.pg-contact > div:first-child p {
+  font-size: 15px; color: #ffffff; line-height: 1.8; font-weight: 300;
+}
+.pg-contact-card {
+  background: var(--surf2);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: border-color .25s;
+  position: relative;
+  overflow: hidden;
+}
+.pg-contact-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(212,255,0,.3), transparent);
+}
+.pg-contact-card:hover { border-color: rgba(212,255,0,.2); }
+.pg-contact-icon {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: rgba(212,255,0,.08); border: 1px solid rgba(212,255,0,.2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent);
+}
+.pg-contact-card-label {
+  font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 4px;
+}
+.pg-contact-card a {
+  color: var(--white);
+  text-decoration: none;
+  font-family: var(--dsp);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.02em;
+  transition: color .2s;
+}
+.pg-contact-card a:hover { color: var(--accent); }
+
+/* ── CTA SECTION ── */
+.pg-cta {
+  padding: 120px 60px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.pg-cta::before {
+  content: ''; position: absolute;
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(212,255,0,.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+.pg-cta-eye {
+  font-size: 11px; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 20px;
+}
+.pg-cta h2 {
+  font-family: var(--dsp);
+  font-size: clamp(36px, 4.5vw, 56px);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.04;
+  margin-bottom: 16px;
+}
+.pg-cta h2 span { color: rgba(160,220,255,0.45); }
+.pg-cta p {
+  font-size: 16px; color: #ffffff; line-height: 1.8;
+  font-weight: 300; margin-bottom: 44px; max-width: 420px; margin-left: auto; margin-right: auto;
+}
+.pg-cta-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--accent); border: none; cursor: pointer;
+  font-family: var(--dsp); font-size: 15px; font-weight: 700;
+  color: #0a0a0a; padding: 16px 36px; border-radius: 40px;
+  letter-spacing: .02em; text-decoration: none;
+  transition: all .25s;
+}
+.pg-cta-btn:hover {
+  background: #e2ff40;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(212,255,0,.3);
+}
+
+/* ── ANIMATION ── */
+@keyframes pgUp { to { opacity: 1; transform: translateY(0); } }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .pg-hero { padding: 140px 24px 80px; }
+  .pg-about { grid-template-columns: 1fr; gap: 40px; padding: 80px 24px; }
+  .pg-values { padding: 0 24px 80px; }
+  .pg-values-grid { grid-template-columns: 1fr; }
+  .pg-contact { grid-template-columns: 1fr; gap: 40px; padding: 80px 24px; }
+  .pg-cta { padding: 80px 24px; }
+}
+`;
+
+const VALUES = [
+  {
+    Icon: Shield,
+    h: "Privacy first",
+    p: "Your phone number is never exposed. Strangers can reach you through Hilabi without ever seeing your personal contact details.",
+  },
+  {
+    Icon: Zap,
+    h: "Zero friction",
+    p: "No app downloads, no sign-ups for the person scanning. Anyone with a phone can reach you in seconds — it just works.",
+  },
+  {
+    Icon: Target,
+    h: "Built to solve",
+    p: "Every feature exists to resolve a real-world vehicle situation quickly — wrong parking, emergencies, accidents — calmly and efficiently.",
+  },
+];
+
+export default function Company() {
+  return (
+    <LandingLayout>
+      <style>{pageCss}</style>
+      <PageBg />
+      <div className="pg-page-wrap">
+
+      {/* ── HERO ── */}
+      <section className="pg-hero">
+        <div className="pg-eyebrow">
+          <span className="pg-edot" />
+          <span>About Hilabi</span>
+        </div>
+        <h1>
+          Built for the<br />
+          <em>moments that matter.</em>
+        </h1>
+        <p>
+          We're building Hilabi to make vehicle communication simple, private, and instant — one scan at a time.
+        </p>
+      </section>
+
+      <div className="pg-rule" />
+
+      {/* ── ABOUT ── */}
+      <section className="pg-about">
+        <div>
+          <p className="pg-about-label">Our story</p>
+          <h2>
+            Simple idea.<br />
+            <span>Real impact.</span>
+          </h2>
+        </div>
+        <div className="pg-about-body">
+          <p>
+            Hilabi is a vehicle QR tag system that connects drivers with anyone who needs to reach them. Wrong parking, emergencies, accidents — we believe contacting a vehicle owner should be quick and stress-free.
+          </p>
+          <p>
+            Our mission is to remove friction from these everyday moments. One scan, no app required, your phone number stays completely private. We're committed to privacy-first design and simple, reliable technology that works for everyone.
+          </p>
+          <p>
+            We started Hilabi because we experienced the frustration ourselves — circling a parking lot trying to find an owner, or being stuck behind an improperly parked car with no way to help. There had to be a better way.
+          </p>
+        </div>
+      </section>
+
+      {/* ── VALUES GRID ── */}
+      <section className="pg-values">
+        <div className="pg-values-grid">
+          {VALUES.map(({ Icon, h, p }) => (
+            <div key={h} className="pg-val-card">
+              <div className="pg-val-icon"><Icon size={22} /></div>
+              <h3>{h}</h3>
+              <p>{p}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── CONTACT ── */}
+      <div className="pg-contact-wrap">
+        <section className="pg-contact" id="contact">
+          <div>
+            <p className="pg-contact-label">Get in touch</p>
+            <h2>We'd love to<br />hear from you.</h2>
+            <p>
+              Have questions, feedback, or partnership ideas? Our team reads every message and gets back to you personally.
+            </p>
+          </div>
+          <div className="pg-contact-card">
+            <div className="pg-contact-icon"><Mail size={22} /></div>
+            <div>
+              <p className="pg-contact-card-label">Email us</p>
+              <a href="mailto:hilabi.app@gmail.com">hilabi.app@gmail.com</a>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      {/* ── CTA ── */}
+      <section className="pg-cta">
+        <p className="pg-cta-eye">Ready to get started?</p>
+        <h2>
+          One sticker.<br />
+          <span>Endless peace of mind.</span>
+        </h2>
+        <p>
+          Join thousands of drivers who've already made their vehicles reachable — privately and instantly.
+        </p>
+        <Link to="/registration/activate" className="pg-cta-btn">
+          Get Your Sticker <ArrowRight size={16} />
+        </Link>
+      </section>
+      </div>{/* end pg-page-wrap */}
+    </LandingLayout>
+  );
+}

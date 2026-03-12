@@ -12,14 +12,14 @@
   background: #262626;
   -webkit-print-color-adjust: exact;
   print-color-adjust: exact;
-  padding: 10px 10px 6px;
+  padding: 0 10px 6px;
   text-align: center;
 }
 
 .parking-tag-brand {
   font-size: 1.5rem;
   color: #fff;
-  /* margin: 0 0 14px 0; */
+  /* margin: 0 0 10px 0; */
   letter-spacing: 0.05em;
 }
 
@@ -27,7 +27,7 @@
   position: relative;
   width: 160px;
   aspect-ratio: 1;
-  margin: 0 auto 4px;
+  margin: 0 auto 0;
   border: 3px solid #fdc409;
   border-radius: 6px;
   padding: 12px;
@@ -55,13 +55,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 2px;
+  gap: 4px;
   font-size: 9.8px;
   font-weight: 700;
   color: #fdc409;
   margin: 0;
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  line-height: 1;
+}
+
+.parking-tag-scan svg {
+  flex-shrink: 0;
+  transform: translateY(1px);
 }
 
 .parking-tag-scan-icon {

@@ -1,5 +1,10 @@
 import { useState } from "react";
-import { ActivateIcon, DeactivateIcon, CancelIcon } from "../components/AdminIcons";
+import {
+  ActivateIcon,
+  DeactivateIcon,
+  CancelIcon,
+  SearchIcon,
+} from "../components/AdminIcons";
 
 const renderUserStatusToggle = (
   user: LinkedUser,
@@ -81,6 +86,10 @@ const initialUsers: LinkedUser[] = [
 
 const UsersPage = () => {
   const [linkedUsers, setLinkedUsers] = useState<LinkedUser[]>(initialUsers);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "active" | "inactive"
+  >("all");
   const [confirmModal, setConfirmModal] = useState<{
     open: boolean;
     userId: string | null;
@@ -118,11 +127,69 @@ const UsersPage = () => {
     }
   };
 
+  const filteredUsers = linkedUsers.filter((user) => {
+    const q = searchQuery.trim().toLowerCase();
+    const matchesSearch =
+      !q ||
+      user.name.toLowerCase().includes(q) ||
+      user.phone.replace(/\s/g, "").includes(q.replace(/\s/g, "")) ||
+      user.qrCode.toLowerCase().includes(q);
+    const matchesStatus =
+      statusFilter === "all" ||
+      (statusFilter === "active" && user.status === "active") ||
+      (statusFilter === "inactive" && user.status === "inactive");
+    return matchesSearch && matchesStatus;
+  });
+
   return (
     <div className="users-content">
       <div className="page-header">
         <h2>Users</h2>
         <p>View and manage users linked to QR codes</p>
+      </div>
+      <div className="qr-filters">
+        <div className="qr-filter-search">
+          <SearchIcon />
+          <input
+            type="text"
+            placeholder="Search by name, phone, or code..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="qr-search-input"
+          />
+        </div>
+        <div className="qr-filter-group">
+          <span className="qr-filter-label">Status:</span>
+          <div className="qr-filter-toggle">
+            <button
+              type="button"
+              className={`qr-filter-btn ${statusFilter === "all" ? "active" : ""}`}
+              onClick={() => setStatusFilter("all")}
+            >
+              All
+            </button>
+            <button
+              type="button"
+              className={`qr-filter-btn ${statusFilter === "active" ? "active" : ""}`}
+              onClick={() => setStatusFilter("active")}
+            >
+              Active
+            </button>
+            <button
+              type="button"
+              className={`qr-filter-btn ${statusFilter === "inactive" ? "active deactivated" : ""}`}
+              onClick={() => setStatusFilter("inactive")}
+            >
+              Inactive
+            </button>
+          </div>
+        </div>
+        <span
+          className="qr-filter-total"
+          style={{ marginLeft: "auto", fontWeight: 600, color: "#64748b" }}
+        >
+          Total: {filteredUsers.length}
+        </span>
       </div>
       <div className="users-table-card">
         <div className="users-table-wrap">
@@ -139,7 +206,7 @@ const UsersPage = () => {
               </tr>
             </thead>
             <tbody>
-              {linkedUsers.map((user, index) => {
+              {filteredUsers.map((user, index) => {
                 const daysLeft = getDaysLeft(user.subscriptionEndDate);
                 const isExpired = daysLeft === 0;
                 return (

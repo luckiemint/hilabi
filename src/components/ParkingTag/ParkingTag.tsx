@@ -13,7 +13,7 @@ const ScanIcon = () => (
     viewBox="0 0 72 56"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <g fill="#FFC107">
+    <g fill="#FFD400">
       <path
         d="
       M26 6
@@ -153,7 +153,7 @@ const ParkingTag = ({ code, qrValue, className = "" }: ParkingTagProps) => {
             />
           </div>
         </div>
-        <p className="parking-tag-scan">
+        <p className="parking-tag-scan" style={{ color: "#FFD400" }}>
           <ScanIcon /> SCAN TO CONTACT OWNER
         </p>
       </div>
@@ -171,15 +171,19 @@ const ParkingTag = ({ code, qrValue, className = "" }: ParkingTagProps) => {
         </div>
 
         <div className="parking-tag-bottom-item">
-          <span>Wrong Parking</span>
+          <span style={{ color: "#262626" }}>Wrong Parking</span>
         </div>
-        <div className="parking-tag-bullet">•</div>
-        <div className="parking-tag-bottom-item">
-          <span>Emergency</span>
+        <div className="parking-tag-bullet" style={{ color: "#262626" }}>
+          •
         </div>
-        <div className="parking-tag-bullet">•</div>
         <div className="parking-tag-bottom-item">
-          <span>Urgent Issue</span>
+          <span style={{ color: "#262626" }}>Emergency</span>
+        </div>
+        <div className="parking-tag-bullet" style={{ color: "#262626" }}>
+          •
+        </div>
+        <div className="parking-tag-bottom-item">
+          <span style={{ color: "#262626" }}>Urgent Issue</span>
         </div>
       </div>
     </div>

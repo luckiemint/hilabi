@@ -7,10 +7,8 @@ function HomePage() {
 
   return (
     <>
-      {/* Header */}
       <Header />
 
-      {/* Hero Section */}
       <div className="hero-section">
         <div className="badge">Smart Vehicle Management</div>
 
@@ -22,7 +20,6 @@ function HomePage() {
           Seamless vehicle access management for your community
         </p>
 
-        {/* Mobile Quick Actions */}
         <div className="quick-actions">
           <button
             className="quick-action-btn blue"
@@ -43,7 +40,7 @@ function HomePage() {
             </svg>
             <span className="quick-action-label">Vehicle Owner</span>
           </button>
-          
+
           <button
             className="quick-action-btn green"
             onClick={() => navigate("/visitor/dashboard")}
@@ -73,7 +70,7 @@ function HomePage() {
             <span className="quick-action-label">Visitor</span>
           </button>
 
-           <button
+          <button
             className="quick-action-btn purple"
             onClick={() => navigate("/admin/dashboard")}
           >
@@ -88,7 +85,6 @@ function HomePage() {
           </button>
         </div>
 
-        {/* Mobile Featured Card */}
         <div className="featured-card">
           <h3 className="featured-title">Activate Your Tag</h3>
           <p className="featured-description">
@@ -110,7 +106,6 @@ function HomePage() {
           </button>
         </div>
 
-        {/* Desktop Navigation Cards */}
         <div className="nav-cards">
           <div
             className="nav-card blue"
@@ -236,7 +231,6 @@ function HomePage() {
           </div>
         </div>
 
-        {/* Desktop CTA */}
         <div className="desktop-cta">
           <h3>Need to Activate a Tag?</h3>
           <p>Start the activation process in just a few clicks</p>
@@ -257,7 +251,6 @@ function HomePage() {
         </div>
       </div>
 
-      {/* Footer */}
       <footer className="footer">
         <p>© 2025 <span className="hilabi-font">Hilabi</span>. All rights reserved.</p>
       </footer>

@@ -1,8 +1,22 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../../components/header/Header";
 
-const BackIcon = ({ size = 24, color = "#1f2937" }) => (
+type PageType = "menu" | "call" | "message" | "emergency";
+
+type ContactFormPageProps = {
+  type: PageType;
+  icon: React.ComponentType;
+  title: string;
+  subtitle: string;
+  buttonText: string;
+  buttonClass: string;
+  onClick: (_phone: string) => void;
+  selectedContactIndex: number | null;
+  onContactSelect: (_index: number) => void;
+};
+
+const BackIcon = ({ size = 24, color = "#1f2937" }: { size?: number; color?: string }) => (
   <svg
     width={size}
     height={size}
@@ -147,8 +161,8 @@ const ShieldIcon = () => (
 
 const ContactVehiclePages = () => {
   const navigate = useNavigate();
-  const [currentPage, setCurrentPage] = useState("menu");
-  const [selectedContactIndex, setSelectedContactIndex] = useState(null);
+  const [currentPage, setCurrentPage] = useState<PageType>("menu");
+  const [selectedContactIndex, setSelectedContactIndex] = useState<number | null>(null);
 
   const MenuPage = () => (
     <div className="page-content">
@@ -275,8 +289,8 @@ const ContactVehiclePages = () => {
     onClick,
     selectedContactIndex,
     onContactSelect,
-  }) => {
-    const inputRef = useRef(null);
+  }: ContactFormPageProps) => {
+    const inputRef = useRef<HTMLElement | null>(null);
 
     // Mock contacts with hidden numbers
     const contacts =
@@ -611,7 +625,7 @@ const ContactVehiclePages = () => {
             buttonClass="emergency-btn-primary"
             selectedContactIndex={selectedContactIndex}
             onContactSelect={setSelectedContactIndex}
-            onClick={(phone) => navigate("/visitor/emergency-contacts")}
+            onClick={() => navigate("/visitor/emergency-contacts")}
           />
         )}
         {/* Warning Note */}
@@ -824,7 +838,7 @@ const ContactVehiclePages = () => {
 
         .warning-note p {
           font-size: 0.8125rem;
-          color: #64748b;
+          color: #ffffff;
           margin: 0;
           line-height: 1.5;
         }
@@ -934,7 +948,7 @@ const ContactVehiclePages = () => {
 
         .option-content p {
           font-size: 0.8125rem;
-          color: #64748b;
+          color: #ffffff;
           margin: 0;
         }
 
@@ -1323,7 +1337,7 @@ const ContactVehiclePages = () => {
 
         .info-text p {
           font-size: 0.8125rem;
-          color: #64748b;
+          color: #ffffff;
           line-height: 1.4;
           margin: 0;
         }

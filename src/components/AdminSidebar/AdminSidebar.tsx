@@ -1,109 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  LayoutDashboard,
+  QrCode,
+  Users,
+  User,
+  LogOut,
+  ChevronLeft,
+  ChevronRight,
+  LayoutGrid,
+} from "lucide-react";
 import "./AdminSidebar.css";
-
-const DashboardIcon = () => (
-  <svg
-    width="22"
-    height="22"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <rect x="3" y="3" width="7" height="7" />
-    <rect x="14" y="3" width="7" height="7" />
-    <rect x="14" y="14" width="7" height="7" />
-    <rect x="3" y="14" width="7" height="7" />
-  </svg>
-);
-
-const QRIcon = () => (
-  <svg
-    width="22"
-    height="22"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <rect x="3" y="3" width="7" height="7" />
-    <rect x="14" y="3" width="7" height="7" />
-    <rect x="3" y="14" width="7" height="7" />
-    <rect x="14" y="14" width="7" height="7" />
-    <path d="M6 6h1M17 6h1M6 17h1M17 17h1" />
-  </svg>
-);
-
-const UsersIcon = () => (
-  <svg
-    width="22"
-    height="22"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-    <circle cx="9" cy="7" r="4" />
-    <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
-  </svg>
-);
-
-const ProfileIcon = () => (
-  <svg
-    width="22"
-    height="22"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-    <circle cx="12" cy="7" r="4" />
-  </svg>
-);
-
-const LogoutIcon = () => (
-  <svg
-    width="22"
-    height="22"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-    <polyline points="16 17 21 12 16 7" />
-    <line x1="21" y1="12" x2="9" y2="12" />
-  </svg>
-);
-
-const ChevronLeftIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
-);
-
-const ChevronRightIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <polyline points="9 18 15 12 9 6" />
-  </svg>
-);
 
 interface AdminSidebarProps {
   activeTab: string;
@@ -146,13 +53,13 @@ const AdminSidebar = ({
   };
 
   const mainItems = [
-    { id: "dashboard", label: "Dashboard", icon: DashboardIcon },
-    { id: "qrgenerate", label: "QR Management", icon: QRIcon },
-    { id: "users", label: "Users", icon: UsersIcon },
+    { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+    { id: "qrgenerate", label: "QR Management", icon: QrCode },
+    { id: "users", label: "User Management", icon: Users },
   ];
 
   const settingsItems = [
-    { id: "profile", label: "Profile", icon: ProfileIcon },
+    { id: "profile", label: "Profile", icon: User },
   ];
 
   return (
@@ -168,17 +75,7 @@ const AdminSidebar = ({
             aria-label="Go to home"
           >
             <div className="admin-sidebar-logo-icon">
-              <svg
-                width="28"
-                height="28"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#2563eb"
-                strokeWidth="2"
-              >
-                <rect x="3" y="3" width="7" height="7" />
-                <rect x="14" y="3" width="7" height="7" />
-              </svg>
+              <LayoutGrid size={28} strokeWidth={2} color="#2563eb" />
             </div>
             {!isCollapsed && (
               <div className="admin-sidebar-logo-text">
@@ -195,7 +92,7 @@ const AdminSidebar = ({
           aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           title={isCollapsed ? "Expand" : "Collapse"}
         >
-          {isCollapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+          {isCollapsed ? <ChevronRight size={20} /> : <ChevronLeft size={20} />}
         </button>
 
         <nav className="admin-sidebar-nav">
@@ -210,7 +107,7 @@ const AdminSidebar = ({
                 onClick={() => handleNav(item.id)}
               >
                 <span className="admin-sidebar-icon">
-                  <item.icon />
+                  <item.icon size={22} strokeWidth={2} />
                 </span>
                 {!isCollapsed && (
                   <span className="admin-sidebar-label">{item.label}</span>
@@ -230,7 +127,7 @@ const AdminSidebar = ({
                 onClick={() => handleNav(item.id)}
               >
                 <span className="admin-sidebar-icon">
-                  <item.icon />
+                  <item.icon size={22} strokeWidth={2} />
                 </span>
                 {!isCollapsed && (
                   <span className="admin-sidebar-label">{item.label}</span>
@@ -245,7 +142,7 @@ const AdminSidebar = ({
               onClick={handleLogout}
             >
               <span className="admin-sidebar-icon">
-                <LogoutIcon />
+                <LogOut size={22} strokeWidth={2} />
               </span>
               {!isCollapsed && (
                 <span className="admin-sidebar-label">Logout</span>

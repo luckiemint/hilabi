@@ -149,6 +149,39 @@ const QRManagementPage = () => {
         useCORS: true,
         allowTaint: true,
         logging: false,
+        onclone: (_doc, clonedEl) => {
+          const html = clonedEl as HTMLElement;
+
+          // 1. Reduce space above HILABI heading
+          const upper = html.querySelector(".parking-tag-upper") as HTMLElement;
+          if (upper) upper.style.paddingTop = "0";
+
+          const brand = html.querySelector(".parking-tag-brand") as HTMLElement;
+          if (brand) brand.style.marginBottom = "10px";
+
+          // 2. Reduce space above .parking-tag-scan (between QR frame and scan text)
+          const qrFrame = html.querySelector(".parking-tag-qr-frame") as HTMLElement;
+          if (qrFrame) qrFrame.style.marginBottom = "0";
+
+          // SCAN row: yellow color, align icon with text
+          const scanRow = html.querySelector(".parking-tag-scan") as HTMLElement;
+          if (scanRow) {
+            scanRow.style.setProperty("color", "#FFD400", "important");
+            scanRow.style.display = "flex";
+            scanRow.style.alignItems = "center";
+            scanRow.style.justifyContent = "center";
+            const svg = scanRow.querySelector("svg") as SVGSVGElement;
+            if (svg) {
+              svg.style.transform = "translateY(2px)";
+              svg.style.flexShrink = "0";
+              const g = svg.querySelector("g");
+              if (g) (g as SVGElement).setAttribute("fill", "#FFD400");
+            }
+          }
+
+          const labels = html.querySelectorAll(".parking-tag-bottom-item span, .parking-tag-bullet");
+          labels.forEach((n) => (n as HTMLElement).style.setProperty("color", "#262626", "important"));
+        },
       })
         .then((canvas) => {
           const link = document.createElement("a");
@@ -158,7 +191,7 @@ const QRManagementPage = () => {
           setDownloadQr(null);
         })
         .catch(() => setDownloadQr(null));
-    }, 300);
+    }, 500);
     return () => clearTimeout(timer);
   }, [downloadQr]);
 

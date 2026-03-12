@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const BackIcon = ({ size = 24, color = "#1f2937" }) => (
@@ -641,7 +641,7 @@ const OTPVerification = () => {
 
         .info-text p {
           font-size: 0.8125rem;
-          color: #64748b;
+          color: #ffffff;
           line-height: 1.4;
           margin: 0;
         }

@@ -411,9 +411,9 @@ const AdminDashboard = () => {
           margin-bottom: 8px; 
         }
         
-        .page-header p { 
-          font-size: 1rem; 
-          color: #64748b; 
+.page-header p {
+          font-size: 1rem;
+          color: #ffffff;
         }
         
         .kpi-grid { 
@@ -474,9 +474,9 @@ const AdminDashboard = () => {
           margin-bottom: 4px; 
         }
         
-        .kpi-card p { 
-          font-size: 0.9375rem; 
-          color: #64748b; 
+.kpi-card p {
+          font-size: 0.9375rem;
+          color: #ffffff;
         }
         
         .activity-section { 
@@ -507,9 +507,9 @@ const AdminDashboard = () => {
           flex-shrink: 0;
         }
         
-        .activity-item p { 
-          font-size: 0.9375rem; 
-          color: #0f172a; 
+.activity-item p {
+          font-size: 0.9375rem;
+          color: #ffffff;
           margin-bottom: 4px; 
         }
         

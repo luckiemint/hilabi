@@ -1,5 +1,12 @@
-import React from "react";
 import "./HilabiLogo.css";
+
+type HilabiLogoProps = {
+  width?: number;
+  height?: number;
+  color?: string;
+  className?: string;
+  size?: "sm" | "md" | "lg" | "xl";
+};
 
 /**
  * Hilabi logo - bold, slanted, rounded uppercase
@@ -11,7 +18,7 @@ const HilabiLogo = ({
   color = "currentColor",
   className = "",
   size = "md",
-}) => {
+}: HilabiLogoProps) => {
   const sizes = {
     sm: { width: 100, fontSize: 22, height: 32 },
     md: { width: 140, fontSize: 30, height: 44 },

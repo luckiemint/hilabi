@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import HomePage from "./pages/Home/Home";
+import ProductPage from "./pages/Product/Product";
+import CompanyPage from "./pages/Company/Company";
 import ActivateTag from "./pages/Registration/ActivateTag";
 import DashboardView from "./pages/VehicleOwner/DashboardView";
 import RegisterVehicle from "./pages/Registration/VehicleNumber";
@@ -15,6 +17,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/product" element={<ProductPage />} />
+      <Route path="/company" element={<CompanyPage />} />
       <Route path="/owner/dashboard" element={<DashboardView />} />
       <Route path="/registration/activate" element={<ActivateTag />} />
       <Route path="/registration/register-vehicle" element={<RegisterVehicle />} />
