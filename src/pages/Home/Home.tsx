@@ -737,7 +737,7 @@ export default function Home() {
             <StickerCard />
           </div>
         </div>
-        <div className="hero-bottom">
+        <div className="hero-bottom">~
           <div className="steps">
             <div className="step on">
               <div className="step-ic"><ScanLine size={20} /></div>
