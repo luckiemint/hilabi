@@ -146,7 +146,7 @@ body { background: var(--bg); color: var(--white); font-family: var(--body); -we
 
 /* DEMO FLOW */
 .demo-flow {
-width: 100%;
+  width: 100%;
   display: flex; align-items: center; justify-content: center; gap: 0;
   align-self: center;
   background: var(--surf); border: 1px solid var(--border);
@@ -206,6 +206,18 @@ width: 100%;
   15%  { opacity: 1; }
   85%  { opacity: 1; }
   100% { left: 30px; opacity: 0; }
+}
+@keyframes slideRightSm {
+  0%   { left: -3px; opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { left: 14px; opacity: 0; }
+}
+@keyframes slideRightXs {
+  0%   { left: -2px; opacity: 0; }
+  15%  { opacity: 1; }
+  85%  { opacity: 1; }
+  100% { left: 10px; opacity: 0; }
 }
 
 /* cta */
@@ -296,9 +308,16 @@ width: 100%;
   .arr { display: none; }
   .step { padding: 0 16px; }
   .steps { justify-content: center; }
-  .demo-flow { align-self: center; padding: 16px 12px; }
+  .demo-flow { align-self: center; padding: 12px 8px; margin-bottom: 32px; }
+  .demo-node { padding: 0 10px; }
+  .demo-icon-wrap { width: 38px; height: 38px; border-radius: 11px; }
+  .demo-icon-wrap svg { width: 16px; height: 16px; }
   .demo-label { display: none; }
-  .demo-arrow-line { width: 20px; }
+  .demo-arrow { padding-bottom: 14px; }
+  .demo-arrow-line { width: 14px; }
+  .demo-arrow-dot { width: 5px; height: 5px; animation: slideRightSm 2.4s ease-in-out infinite; }
+  .demo-arrow-dot:nth-child(2) { animation-delay: .8s; }
+  .demo-arrow-dot:nth-child(3) { animation-delay: 1.6s; }
   .trust-row { gap: 14px; justify-content: center; }
   .cta-wrap { align-items: center; }
   .cta-row { justify-content: center; }
@@ -309,6 +328,12 @@ width: 100%;
   .how-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
+  .demo-flow { padding: 10px 6px; }
+  .demo-node { padding: 0 6px; }
+  .demo-icon-wrap { width: 32px; height: 32px; border-radius: 10px; }
+  .demo-icon-wrap svg { width: 14px; height: 14px; }
+  .demo-arrow-line { width: 10px; }
+  .demo-arrow-dot { animation: slideRightXs 2.4s ease-in-out infinite; width: 4px; height: 4px; }
   .cta-row { flex-direction: column; width: 100%; }
   .cta-pill { width: 100%; }
   .cta-btn { width: 100%; justify-content: center; }

@@ -513,12 +513,27 @@ const pageCss = `
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
+  .pg-hero { padding: 120px 24px 80px; }
   .pg-hero h1 { font-size: clamp(28px, 8vw, 52px); }
+  .pg-hero p { font-size: 15px; }
   .pg-features, .pg-how, .pg-pricing { padding: 80px 24px; }
+  .pg-features-title, .pg-how-title { font-size: clamp(28px, 6vw, 44px); margin-bottom: 40px; }
   .pg-features-grid { grid-template-columns: 1fr; }
+  .pg-feat-card { padding: 32px 24px; }
+  .pg-feat-card h3 { font-size: 18px; }
+  .pg-feat-card p { font-size: 13px; }
+  .pg-feat-icon { width: 40px; height: 40px; margin-bottom: 20px; }
   .pg-steps-row { grid-template-columns: 1fr; }
+  .pg-step h3 { font-size: 18px; }
+  .pg-step p { font-size: 13px; }
   .pg-pricing { grid-template-columns: 1fr; gap: 48px; }
+  .pg-pricing h2 { font-size: clamp(28px, 6vw, 44px); }
+  .pg-pricing > div:first-child p { font-size: 14px; }
+  .pg-price-card { padding: 28px 24px; }
+  .pg-price-amount { font-size: 44px; }
   .pg-cta { padding: 80px 24px; }
+  .pg-cta h2 { font-size: clamp(28px, 6vw, 44px); }
+  .pg-cta p { font-size: 15px; }
 }
 `;
 

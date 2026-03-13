@@ -651,12 +651,25 @@ const pageCss = `
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
-  .pg-hero { padding: 140px 24px 80px; }
+  .pg-hero { padding: 120px 24px 80px; }
+  .pg-hero h1 { font-size: clamp(28px, 8vw, 52px); }
   .pg-about { grid-template-columns: 1fr; gap: 40px; padding: 80px 24px; }
+  .pg-about h2 { font-size: clamp(28px, 6vw, 44px); }
+  .pg-about-body p { font-size: 15px; }
   .pg-values { padding: 0 24px 80px; }
   .pg-values-grid { grid-template-columns: 1fr; }
+  .pg-val-card { padding: 32px 24px; }
+  .pg-val-card h3 { font-size: 18px; }
+  .pg-val-card p { font-size: 13px; }
+  .pg-val-icon { width: 40px; height: 40px; margin-bottom: 20px; }
   .pg-contact { grid-template-columns: 1fr; gap: 40px; padding: 80px 24px; }
+  .pg-contact h2 { font-size: clamp(28px, 6vw, 44px); }
+  .pg-contact > div:first-child p { font-size: 14px; }
+  .pg-contact-card { padding: 28px 24px; }
+  .pg-contact-card a { font-size: 18px; }
   .pg-cta { padding: 80px 24px; }
+  .pg-cta h2 { font-size: clamp(28px, 6vw, 44px); }
+  .pg-cta p { font-size: 15px; }
 }
 `;
 
