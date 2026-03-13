@@ -436,7 +436,7 @@ const pageCss = `
 
 .pg-hero h1 {
   font-family: var(--dsp);
-  font-size: clamp(52px, 7vw, 88px);
+  font-size: clamp(48px, 7.5vw, 96px);
   font-weight: 800;
   letter-spacing: -0.045em;
   line-height: 1.02;

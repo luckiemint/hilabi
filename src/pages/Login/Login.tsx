@@ -114,6 +114,7 @@ export default function Login() {
             <>
               <div className="login-input-wrap">
                 <span className="login-country">🇮🇳 +91</span>
+                <span className="login-divider" aria-hidden="true" />
                 <input
                   type="tel"
                   inputMode="numeric"
@@ -229,21 +230,31 @@ const loginCss = `
 }
 .login-input-wrap {
   display: flex;
-  align-items: center;
-  gap: 12px;
+  align-items: stretch;
+  gap: 0;
   background: var(--surf);
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 0 16px;
+  overflow: hidden;
   margin-bottom: 24px;
 }
 .login-country {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 14px 0 16px;
   font-size: 14px;
   color: var(--muted);
 }
+.login-divider {
+  width: 1px;
+  background: var(--border);
+  flex-shrink: 0;
+}
 .login-input {
   flex: 1;
-  padding: 16px 0;
+  min-width: 0;
+  padding: 16px 16px 16px 14px;
   min-height: 48px;
   background: none;
   border: none;

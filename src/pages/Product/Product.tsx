@@ -289,7 +289,7 @@ const pageCss = `
 .pg-eyebrow span { font-size: 11px; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); }
 .pg-hero h1 {
   font-family: var(--dsp);
-  font-size: clamp(52px, 7vw, 88px);
+  font-size: clamp(48px, 7.5vw, 96px);
   font-weight: 800; letter-spacing: -0.045em; line-height: 1.02;
   margin-bottom: 28px;
   opacity: 0; animation: pgUp .6s .25s ease forwards;
@@ -513,7 +513,6 @@ const pageCss = `
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
-  .pg-hero { padding: 80px 24px 80px; }
   .pg-hero h1 { font-size: clamp(28px, 8vw, 52px); }
   .pg-features, .pg-how, .pg-pricing { padding: 80px 24px; }
   .pg-features-grid { grid-template-columns: 1fr; }
@@ -609,7 +608,7 @@ export default function Product() {
         <section className="pg-hero">
           <div className="pg-eyebrow">
             <span className="pg-edot" />
-            <span>How Hilabi works</span>
+            <span>Our Product</span>
           </div>
           <h1>
             Everything you need.<br />
