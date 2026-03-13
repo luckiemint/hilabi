@@ -211,13 +211,7 @@ body { background: var(--bg); color: var(--white); font-family: var(--body); -we
   0%   { left: -3px; opacity: 0; }
   15%  { opacity: 1; }
   85%  { opacity: 1; }
-  100% { left: 14px; opacity: 0; }
-}
-@keyframes slideRightXs {
-  0%   { left: -2px; opacity: 0; }
-  15%  { opacity: 1; }
-  85%  { opacity: 1; }
-  100% { left: 10px; opacity: 0; }
+  100% { left: 24px; opacity: 0; }
 }
 
 /* cta */
@@ -308,14 +302,14 @@ body { background: var(--bg); color: var(--white); font-family: var(--body); -we
   .arr { display: none; }
   .step { padding: 0 16px; }
   .steps { justify-content: center; }
-  .demo-flow { align-self: center; padding: 12px 8px; margin-bottom: 32px; }
-  .demo-node { padding: 0 10px; }
-  .demo-icon-wrap { width: 38px; height: 38px; border-radius: 11px; }
-  .demo-icon-wrap svg { width: 16px; height: 16px; }
-  .demo-label { display: none; }
-  .demo-arrow { padding-bottom: 14px; }
-  .demo-arrow-line { width: 14px; }
-  .demo-arrow-dot { width: 5px; height: 5px; animation: slideRightSm 2.4s ease-in-out infinite; }
+  .demo-flow { align-self: center; padding: 16px 20px; margin-bottom: 32px; border-radius: 16px; }
+  .demo-node { padding: 0 14px; gap: 6px; }
+  .demo-icon-wrap { width: 42px; height: 42px; border-radius: 12px; }
+  .demo-icon-wrap svg { width: 18px; height: 18px; }
+  .demo-label { font-size: 10px; }
+  .demo-arrow { padding-bottom: 16px; }
+  .demo-arrow-line { width: 24px; }
+  .demo-arrow-dot { width: 6px; height: 6px; animation: slideRightSm 2.4s ease-in-out infinite; }
   .demo-arrow-dot:nth-child(2) { animation-delay: .8s; }
   .demo-arrow-dot:nth-child(3) { animation-delay: 1.6s; }
   .trust-row { gap: 14px; justify-content: center; }
@@ -328,12 +322,15 @@ body { background: var(--bg); color: var(--white); font-family: var(--body); -we
   .how-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
-  .demo-flow { padding: 10px 6px; }
-  .demo-node { padding: 0 6px; }
-  .demo-icon-wrap { width: 32px; height: 32px; border-radius: 10px; }
-  .demo-icon-wrap svg { width: 14px; height: 14px; }
-  .demo-arrow-line { width: 10px; }
-  .demo-arrow-dot { animation: slideRightXs 2.4s ease-in-out infinite; width: 4px; height: 4px; }
+  .demo-flow { padding: 14px 16px; }
+  .demo-node { padding: 0 10px; gap: 5px; }
+  .demo-icon-wrap { width: 38px; height: 38px; border-radius: 11px; }
+  .demo-icon-wrap svg { width: 16px; height: 16px; }
+  .demo-label { font-size: 9px; }
+  .demo-arrow-line { width: 18px; }
+  .demo-arrow-dot { width: 5px; height: 5px; animation: slideRightSm 2.4s ease-in-out infinite; }
+  .demo-arrow-dot:nth-child(2) { animation-delay: .8s; }
+  .demo-arrow-dot:nth-child(3) { animation-delay: 1.6s; }
   .cta-row { flex-direction: column; width: 100%; }
   .cta-pill { width: 100%; }
   .cta-btn { width: 100%; justify-content: center; }
