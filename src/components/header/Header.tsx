@@ -108,7 +108,9 @@ const Header = () => {
                     className="header-mob-item"
                     onClick={handleMail}
                   >
-                    <span className="header-mob-icon"><Mail size={20} /></span>
+                    <span className="header-mob-icon">
+                      <Mail size={20} />
+                    </span>
                     <span>{SUPPORT_EMAIL}</span>
                   </a>
                   <a
@@ -116,7 +118,9 @@ const Header = () => {
                     className="header-mob-item"
                     onClick={handlePhone}
                   >
-                    <span className="header-mob-icon"><Phone size={20} /></span>
+                    <span className="header-mob-icon">
+                      <Phone size={20} />
+                    </span>
                     <span>{SUPPORT_PHONE}</span>
                   </a>
                 </nav>
@@ -126,13 +130,15 @@ const Header = () => {
                   className="header-mob-item header-mob-logout"
                   onClick={handleLogout}
                 >
-                  <span className="header-mob-icon"><LogOut size={20} /></span>
+                  <span className="header-mob-icon">
+                    <LogOut size={20} />
+                  </span>
                   <span>Logout</span>
                 </button>
               </div>
             </div>
           </>,
-          document.body
+          document.body,
         )}
     </header>
   );

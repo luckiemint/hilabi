@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap");
 
 .header {
   position: sticky;
@@ -58,7 +58,9 @@
   background: none;
   border: none;
   cursor: pointer;
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
 }
 
 .header-nav-item:hover {
@@ -80,7 +82,9 @@
   cursor: pointer;
   color: rgba(255, 255, 255, 0.85);
   border-radius: 8px;
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
 }
 
 .header-ham:hover {
@@ -124,7 +128,9 @@
   cursor: pointer;
   color: rgba(255, 255, 255, 0.85);
   border-radius: 8px;
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
 }
 
 .header-mob-close:hover {
@@ -170,7 +176,9 @@
   background: none;
   border: none;
   cursor: pointer;
-  transition: color 0.2s, background 0.2s;
+  transition:
+    color 0.2s,
+    background 0.2s;
   text-align: left;
   width: 100%;
   border-radius: 8px;
