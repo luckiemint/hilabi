@@ -1,42 +1,15 @@
 import { useState } from "react";
 import Header from "../../components/header/Header";
 
-const MenuIcon = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <path d="M3 12h18M3 6h18M3 18h18" />
-  </svg>
-);
-
 const EditIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
     <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
   </svg>
 );
 
 const CarIcon = () => (
-  <svg
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M5 13L3 13.5V18.5L5 19M19 13L21 13.5V18.5L19 19" />
     <path d="M6 13H18C19.1046 13 20 13.8954 20 15V17C20 18.1046 19.1046 19 18 19H6C4.89543 19 4 18.1046 4 17V15C4 13.8954 4.89543 13 6 13Z" />
     <path d="M6 13L7.5 9C7.77614 8.44772 8.34543 8 9 8H15C15.6546 8 16.2239 8.44772 16.5 9L18 13" />
@@ -44,55 +17,27 @@ const CarIcon = () => (
 );
 
 const UserIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
     <circle cx="12" cy="7" r="4" />
   </svg>
 );
 
 const PhoneIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z" />
   </svg>
 );
 
-const AlertIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-  >
-    <circle cx="12" cy="12" r="10" />
-    <path d="M12 8v4M12 16h.01" />
+const PersonIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <circle cx="12" cy="8" r="4" />
+    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
   </svg>
 );
 
 const CheckIcon = () => (
-  <svg
-    width="20"
-    height="20"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2.5"
-  >
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
     <path d="M20 6L9 17l-5-5" />
   </svg>
 );
@@ -103,35 +48,12 @@ const OwnerDashboard = () => {
     name: "Rajesh Kumar",
     phone: "+91 98765 43210",
     vehicle: "MH12AB1234",
+    status: "active" as "active" | "inactive",
     emergencyContacts: [
-      {
-        id: 1,
-        name: "Wife",
-        relation: "Spouse",
-        phone: "+91 98765 43210",
-        avatar: "👩",
-      },
-      {
-        id: 2,
-        name: "Son",
-        relation: "Family",
-        phone: "+91 98765 43211",
-        avatar: "👦",
-      },
-      {
-        id: 3,
-        name: "Father",
-        relation: "Family",
-        phone: "+91 98765 43212",
-        avatar: "👨",
-      },
-      {
-        id: 4,
-        name: "Friend",
-        relation: "Emergency Contact",
-        phone: "+91 98765 43213",
-        avatar: "👤",
-      },
+      { id: 1, name: "Wife", relation: "Spouse", phone: "+91 98765 43210" },
+      { id: 2, name: "Son", relation: "Family", phone: "+91 98765 43211" },
+      { id: 3, name: "Father", relation: "Family", phone: "+91 98765 43212" },
+      { id: 4, name: "Friend", relation: "Emergency Contact", phone: "+91 98765 43213" },
     ],
   });
 
@@ -142,7 +64,6 @@ const OwnerDashboard = () => {
     name: string;
     relation: string;
     phone: string;
-    avatar: string;
   } | null>(null);
 
   const handleSaveName = () => {
@@ -163,8 +84,8 @@ const OwnerDashboard = () => {
 
   const handleSaveEmergencyContact = () => {
     if (editingContact && editingContact.name && editingContact.phone) {
-      const updatedContacts = userData.emergencyContacts.map((contact) =>
-        contact.id === editingContact.id ? editingContact : contact
+      const updatedContacts = userData.emergencyContacts.map((c) =>
+        c.id === editingContact.id ? editingContact : c
       );
       setUserData({ ...userData, emergencyContacts: updatedContacts });
       setCurrentView("dashboard");
@@ -174,81 +95,70 @@ const OwnerDashboard = () => {
 
   const DashboardView = () => (
     <>
-      {/* Welcome Section */}
-      <div className="welcome-section">
-        <div className="welcome-avatar">
-          <span className="avatar-text">{userData.name.charAt(0)}</span>
+      {/* Profile Banner */}
+      <div className="profile-banner">
+        <div className="profile-avatar">
+          <UserIcon />
         </div>
-        <div className="welcome-content">
-          <h2 className="welcome-title">Welcome back!</h2>
-          <p className="welcome-name">{userData.name}</p>
+        <div className="profile-info">
+          <p className="profile-name">{userData.name}</p>
+          <p className="profile-phone">{userData.phone}</p>
+        </div>
+        <div className={`profile-badge ${userData.status === "active" ? "profile-badge-active" : "profile-badge-inactive"}`}>
+          {userData.status === "active" ? "Active" : "Inactive"}
         </div>
       </div>
 
       {/* Vehicle Card */}
-      <div className="section-card vehicle-card">
-        <div className="card-header">
-          <div className="header-left">
-            <div className="icon-wrapper vehicle-icon">
-              <CarIcon />
-            </div>
-            <div>
-              <h3 className="card-title">Vehicle Information</h3>
-              <p className="card-subtitle">Registration details</p>
-            </div>
+      <div className="section-card">
+        <div className="section-head">
+          <div className="section-icon">
+            <CarIcon />
+          </div>
+          <div>
+            <h3 className="card-title">Vehicle</h3>
+            <p className="card-subtitle">Registration number</p>
           </div>
         </div>
-        <div className="vehicle-number-display">
-          <span className="vehicle-label">VEHICLE NUMBER</span>
-          <span className="vehicle-number">{userData.vehicle}</span>
+        <div className="vehicle-plate">
+          <span className="vehicle-plate-label">VEHICLE NUMBER</span>
+          <span className="vehicle-plate-number">{userData.vehicle}</span>
         </div>
       </div>
 
       {/* Personal Details Card */}
       <div className="section-card">
-        <div className="card-header">
-          <h3 className="section-title">Personal Details</h3>
-        </div>
+        <h3 className="section-title">Personal Details</h3>
 
-        <div className="detail-item">
-          <div className="detail-left">
-            <div className="icon-wrapper">
-              <UserIcon />
-            </div>
-            <div>
-              <p className="detail-label">Full Name</p>
-              <p className="detail-value">{userData.name}</p>
-            </div>
+        <div className="detail-row">
+          <div className="detail-icon-wrap">
+            <UserIcon />
+          </div>
+          <div className="detail-text">
+            <p className="detail-label">Full Name</p>
+            <p className="detail-value">{userData.name}</p>
           </div>
           <button
             className="edit-btn"
-            onClick={() => {
-              setEditingName(userData.name);
-              setCurrentView("editProfile");
-            }}
+            onClick={() => { setEditingName(userData.name); setCurrentView("editProfile"); }}
           >
             <EditIcon />
           </button>
         </div>
 
-        <div className="detail-divider"></div>
+        <div className="detail-divider" />
 
-        <div className="detail-item">
-          <div className="detail-left">
-            <div className="icon-wrapper">
-              <PhoneIcon />
-            </div>
-            <div>
-              <p className="detail-label">Phone Number</p>
-              <p className="detail-value">{userData.phone}</p>
-            </div>
+        <div className="detail-row">
+          <div className="detail-icon-wrap">
+            <PhoneIcon />
+          </div>
+          <div className="detail-text">
+            <p className="detail-label">Phone Number</p>
+            <p className="detail-value">{userData.phone}</p>
           </div>
           <button
             className="edit-btn"
-            onClick={() => {
-              setEditingPhone(userData.phone.replace("+91 ", ""));
-              setCurrentView("editPhone");
-            }}
+            onClick={() => { setEditingPhone(userData.phone.replace("+91 ", "")); setCurrentView("editPhone"); }}
           >
             <EditIcon />
           </button>
@@ -257,27 +167,23 @@ const OwnerDashboard = () => {
 
       {/* Emergency Contacts Card */}
       <div className="section-card">
-        <div className="card-header">
-          <h3 className="section-title">Emergency Contacts</h3>
-        </div>
+        <h3 className="section-title">Emergency Contacts</h3>
 
         {userData.emergencyContacts.map((contact, index) => (
           <div key={contact.id}>
-            {index > 0 && <div className="detail-divider"></div>}
-            <div className="detail-item emergency-item">
-              <div className="detail-left">
-                <div className="emergency-avatar">{contact.avatar}</div>
-                <div>
-                  <p className="detail-label">{contact.name}</p>
-                  <p className="detail-value">{contact.phone}</p>
-                </div>
+            {index > 0 && <div className="detail-divider" />}
+            <div className="detail-row">
+              <div className="detail-icon-wrap contact-icon">
+                <PersonIcon />
+              </div>
+              <div className="detail-text">
+                <p className="detail-label">{contact.relation}</p>
+                <p className="detail-value">{contact.name}</p>
+                <p className="contact-phone">{contact.phone}</p>
               </div>
               <button
                 className="edit-btn"
-                onClick={() => {
-                  setEditingContact({ ...contact });
-                  setCurrentView("editEmergency");
-                }}
+                onClick={() => { setEditingContact({ ...contact }); setCurrentView("editEmergency"); }}
               >
                 <EditIcon />
               </button>
@@ -439,23 +345,14 @@ const OwnerDashboard = () => {
   );
 
   return (
-    <div className="mobile-app">
-      {/* Status Bar Spacer */}
-      <div className="status-bar-spacer"></div>
+    <div className="app-page">
+      {/* Header - full width */}
+      <div className="app-header-wrap">
+        <div className="status-bar-spacer"></div>
+        <Header />
+      </div>
 
-      {/* Header */}
-      <Header />
-      {/* <header className="app-header">
-        <div className="logo-section">
-          <CarIcon />
-          <h1 className="app-title">SAMPARK</h1>
-        </div>
-        <button className="menu-btn">
-          <MenuIcon />
-        </button>
-      </header> */}
-
-      {/* Main Content */}
+      {/* Main Content - constrained width */}
       <main className="app-content">
         {currentView === "dashboard" && <DashboardView />}
         {currentView === "editProfile" && <EditProfileView />}
@@ -464,383 +361,326 @@ const OwnerDashboard = () => {
       </main>
 
       <style>{`
-        * {
-          box-sizing: border-box;
-          -webkit-tap-highlight-color: transparent;
-        }
+        *, *::before, *::after { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
-        .mobile-app {
+        .app-page {
           min-height: 100vh;
-          background: linear-gradient(180deg, #f8fafc 0%, #f1f5f9 100%);
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+          min-width: 320px;
+          background: #f4f4f5;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
           display: flex;
           flex-direction: column;
-          max-width: 100vw;
+          width: 100%;
           overflow-x: hidden;
           padding-bottom: env(safe-area-inset-bottom);
         }
 
-        /* Status Bar */
+        .app-header-wrap {
+          width: 100%;
+          max-width: 100%;
+          flex-shrink: 0;
+          background: #212121;
+        }
+
         .status-bar-spacer {
           height: env(safe-area-inset-top);
-          background: #ffffff;
+          background: #212121;
         }
 
-        /* Header */
-        .app-header {
-          background: #ffffff;
-          padding: 16px 20px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          border-bottom: 1px solid #f1f5f9;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-          position: sticky;
-          top: 0;
-          z-index: 100;
-        }
-
-        .logo-section {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-        }
-
-        .logo-section svg {
-          color: #2563eb;
-        }
-
-        .app-title {
-          font-size: 1.375rem;
-          font-weight: 700;
-          color: #0f172a;
-          margin: 0;
-          letter-spacing: 1px;
-        }
-
-        .menu-btn {
-          background: none;
-          border: none;
-          padding: 8px;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          border-radius: 8px;
-          transition: background 0.2s;
-        }
-
-        .menu-btn:active {
-          background: #f1f5f9;
-        }
-
-        /* Main Content */
         .app-content {
           flex: 1;
-          padding: 20px;
-          overflow-y: auto;
-          -webkit-overflow-scrolling: touch;
+          width: 100%;
+          min-width: 320px;
+          padding: 24px 16px;
+          margin: 0 auto;
         }
 
-        /* Welcome Section */
-        .welcome-section {
+        /* Profile Banner */
+        .profile-banner {
           display: flex;
           align-items: center;
           gap: 16px;
-          padding: 24px;
-          background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-          border-radius: 20px;
-          margin-bottom: 20px;
-          box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
-          animation: slideDown 0.4s ease;
-        }
-
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        .welcome-avatar {
-          width: 60px;
-          height: 60px;
+          background: #212121;
           border-radius: 16px;
-          background: rgba(255, 255, 255, 0.2);
-          backdrop-filter: blur(10px);
+          padding: 20px 20px;
+          margin-bottom: 20px;
+        }
+
+        .profile-avatar {
+          width: 48px;
+          height: 48px;
+          border-radius: 50%;
+          background: rgba(253, 197, 10, 0.18);
+          border: 2px solid #fdc50a;
           display: flex;
           align-items: center;
           justify-content: center;
-          border: 2px solid rgba(255, 255, 255, 0.3);
+          color: #fdc50a;
+          flex-shrink: 0;
         }
 
-        .avatar-text {
-          font-size: 1.75rem;
+        .profile-info { flex: 1; min-width: 0; }
+
+        .profile-name {
+          font-size: 1.0625rem;
           font-weight: 700;
           color: #ffffff;
+          margin: 0 0 3px 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
         }
 
-        .welcome-content {
-          flex: 1;
-        }
-
-        .welcome-title {
-          font-size: 0.875rem;
-          color: rgba(255, 255, 255, 0.9);
-          margin: 0 0 4px 0;
-          font-weight: 500;
-        }
-
-        .welcome-name {
-          font-size: 1.25rem;
-          font-weight: 700;
-          color: #ffffff;
+        .profile-phone {
+          font-size: 0.8125rem;
+          color: rgba(255,255,255,0.6);
           margin: 0;
+        }
+
+        .profile-badge {
+          font-size: 0.6875rem;
+          font-weight: 700;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          padding: 5px 10px;
+          border-radius: 20px;
+          flex-shrink: 0;
+        }
+
+        .profile-badge-active {
+          color: #ffffff;
+          background: #22c55e;
+        }
+
+        .profile-badge-inactive {
+          color: #ffffff;
+          background: #ef4444;
         }
 
         /* Section Card */
         .section-card {
           background: #ffffff;
-          border-radius: 18px;
+          border-radius: 14px;
           padding: 20px;
-          margin-bottom: 16px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-          border: 1px solid #f1f5f9;
-          animation: fadeIn 0.5s ease;
+          margin-bottom: 14px;
+          border: 1px solid #e4e4e7;
         }
 
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-
-        .card-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          margin-bottom: 16px;
-        }
-
-        .header-left {
+        .section-head {
           display: flex;
           align-items: center;
           gap: 12px;
+          margin-bottom: 16px;
         }
 
-        .icon-wrapper {
-          width: 44px;
-          height: 44px;
-          border-radius: 12px;
-          background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(29, 78, 216, 0.05));
+        .section-icon {
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
+          background: rgba(253, 197, 10, 0.12);
+          border: 1px solid rgba(253, 197, 10, 0.3);
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #2563eb;
+          color: #b38900;
+          flex-shrink: 0;
         }
 
-        .vehicle-icon {
-          background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05));
-          color: #10b981;
+        .section-title {
+          font-size: 0.875rem;
+          font-weight: 700;
+          color: #71717a;
+          text-transform: uppercase;
+          letter-spacing: 0.07em;
+          margin: 0 0 16px 0;
         }
 
         .card-title {
-          font-size: 1rem;
+          font-size: 0.9375rem;
           font-weight: 600;
-          color: #0f172a;
+          color: #18181b;
           margin: 0 0 2px 0;
         }
 
         .card-subtitle {
           font-size: 0.8125rem;
-          color: #64748b;
+          color: #71717a;
           margin: 0;
         }
 
-        .section-title {
-          font-size: 1rem;
-          font-weight: 700;
-          color: #0f172a;
-          margin: 0;
-        }
-
-        /* Vehicle Display */
-        .vehicle-number-display {
+        /* Vehicle Plate */
+        .vehicle-plate {
           display: flex;
           flex-direction: column;
-          gap: 8px;
-          padding: 16px;
-          background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(5, 150, 105, 0.03));
-          border-radius: 12px;
-          border: 2px solid rgba(16, 185, 129, 0.2);
+          gap: 6px;
+          padding: 14px 16px;
+          background: #fafafa;
+          border-radius: 10px;
+          border: 1.5px solid #e4e4e7;
         }
 
-        .vehicle-label {
-          font-size: 0.75rem;
+        .vehicle-plate-label {
+          font-size: 0.6875rem;
           font-weight: 700;
-          color: #64748b;
-          letter-spacing: 0.5px;
+          letter-spacing: 0.08em;
+          color: #a1a1aa;
+          text-transform: uppercase;
         }
 
-        .vehicle-number {
-          font-size: 1.5rem;
-          font-weight: 700;
-          color: #0f172a;
-          letter-spacing: 2px;
+        .vehicle-plate-number {
+          font-size: 1.375rem;
+          font-weight: 800;
+          color: #18181b;
+          letter-spacing: 3px;
+          font-variant-numeric: tabular-nums;
         }
 
-        /* Detail Item */
-        .detail-item {
+        /* Detail Row */
+        .detail-row {
           display: flex;
           align-items: center;
-          justify-content: space-between;
-          padding: 12px 0;
+          gap: 14px;
+          padding: 14px 0;
         }
 
-        .detail-left {
+        .detail-icon-wrap {
+          width: 38px;
+          height: 38px;
+          border-radius: 10px;
+          background: #f4f4f5;
           display: flex;
           align-items: center;
-          gap: 12px;
-          flex: 1;
+          justify-content: center;
+          color: #52525b;
+          flex-shrink: 0;
         }
+
+        .detail-icon-wrap.contact-icon {
+          background: rgba(253, 197, 10, 0.12);
+          color: #b38900;
+        }
+
+        .detail-text { flex: 1; min-width: 0; }
 
         .detail-label {
-          font-size: 0.8125rem;
-          color: #64748b;
-          margin: 0 0 4px 0;
+          font-size: 0.75rem;
           font-weight: 500;
+          color: #a1a1aa;
+          margin: 0 0 2px 0;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
 
         .detail-value {
           font-size: 0.9375rem;
-          color: #0f172a;
-          margin: 0;
           font-weight: 600;
+          color: #18181b;
+          margin: 0;
+        }
+
+        .contact-phone {
+          font-size: 0.8125rem;
+          color: #71717a;
+          margin: 2px 0 0 0;
         }
 
         .detail-divider {
           height: 1px;
-          background: #f1f5f9;
-          margin: 4px 0;
+          background: #f4f4f5;
         }
 
-        .emergency-avatar {
-          width: 44px;
-          height: 44px;
-          border-radius: 12px;
-          background: rgba(37, 99, 235, 0.1);
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-size: 1.5rem;
-        }
-
+        /* Edit Button */
         .edit-btn {
-          width: 36px;
-          height: 36px;
-          border-radius: 10px;
-          border: none;
-          background: #f1f5f9;
-          color: #64748b;
+          width: 34px;
+          height: 34px;
+          border-radius: 8px;
+          border: 1px solid #e4e4e7;
+          background: #fafafa;
+          color: #71717a;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.2s;
+          transition: all 0.15s;
           flex-shrink: 0;
         }
 
-        .edit-btn:active {
-          background: #e2e8f0;
-          transform: scale(0.95);
-        }
+        .edit-btn:hover { background: #f4f4f5; color: #212121; border-color: #d4d4d8; }
+        .edit-btn:active { transform: scale(0.95); }
 
-        /* Edit Container */
-        .edit-container {
-          padding: 0 0 120px 0;
-        }
+        /* Edit views */
+        .edit-container { padding: 0 0 120px 0; }
 
-        .edit-header {
-          margin-bottom: 32px;
-        }
+        .edit-header { margin-bottom: 28px; }
 
         .edit-title {
-          font-size: 1.5rem;
+          font-size: 1.375rem;
           font-weight: 700;
-          color: #0f172a;
-          margin: 0 0 8px 0;
+          color: #18181b;
+          margin: 0 0 6px 0;
         }
 
         .edit-subtitle {
-          font-size: 0.9375rem;
-          color: #64748b;
+          font-size: 0.9rem;
+          color: #71717a;
           margin: 0;
         }
 
-        /* Form Elements */
-        .input-group {
-          margin-bottom: 20px;
-        }
+        .input-group { margin-bottom: 18px; }
 
         .input-label {
           display: block;
-          font-size: 0.875rem;
+          font-size: 0.8125rem;
           font-weight: 600;
-          color: #334155;
-          margin-bottom: 10px;
+          color: #52525b;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
         }
 
         .form-input {
           width: 100%;
-          padding: 16px;
-          font-size: 1rem;
-          border: 2px solid #e2e8f0;
-          border-radius: 14px;
+          padding: 14px 16px;
+          font-size: 0.9375rem;
+          border: 1.5px solid #e4e4e7;
+          border-radius: 10px;
           background: #ffffff;
-          color: #0f172a;
+          color: #18181b;
           outline: none;
-          transition: all 0.3s;
+          transition: border-color 0.2s, box-shadow 0.2s;
           font-weight: 500;
         }
 
         .form-input:focus {
-          border-color: #2563eb;
-          box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+          border-color: #fdc50a;
+          box-shadow: 0 0 0 3px rgba(253, 197, 10, 0.15);
         }
 
         .phone-input-wrapper {
           display: flex;
           align-items: center;
           gap: 10px;
-          border: 2px solid #e2e8f0;
-          border-radius: 14px;
-          padding: 16px;
+          border: 1.5px solid #e4e4e7;
+          border-radius: 10px;
+          padding: 14px 16px;
           background: #ffffff;
-          transition: all 0.3s;
+          transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         .phone-input-wrapper:focus-within {
-          border-color: #2563eb;
-          box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+          border-color: #fdc50a;
+          box-shadow: 0 0 0 3px rgba(253, 197, 10, 0.15);
         }
 
         .country-code {
-          font-size: 1rem;
+          font-size: 0.9375rem;
           font-weight: 600;
-          color: #0f172a;
+          color: #18181b;
+          flex-shrink: 0;
         }
 
-        .phone-input {
-          border: none;
-          padding: 0;
-          box-shadow: none;
-        }
-
-        .phone-input:focus {
-          box-shadow: none;
-        }
+        .phone-input { border: none; padding: 0; box-shadow: none; }
+        .phone-input:focus { box-shadow: none; border-color: transparent; }
 
         /* Edit Footer */
         .edit-footer {
@@ -849,66 +689,108 @@ const OwnerDashboard = () => {
           left: 0;
           right: 0;
           background: #ffffff;
-          padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
-          border-top: 1px solid #f1f5f9;
-          box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
+          padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+          border-top: 1px solid #e4e4e7;
           z-index: 50;
         }
 
         .primary-btn {
           width: 100%;
-          padding: 18px 24px;
-          background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-          color: #ffffff;
+          padding: 16px 24px;
+          background: #212121;
+          color: #fdc50a;
           border: none;
-          border-radius: 14px;
-          font-size: 1.0625rem;
-          font-weight: 600;
+          border-radius: 10px;
+          font-size: 0.9375rem;
+          font-weight: 700;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
-          transition: all 0.3s;
-          margin-bottom: 10px;
-          box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+          transition: all 0.2s;
+          margin-bottom: 8px;
+          letter-spacing: 0.02em;
         }
+
+        .primary-btn:hover:not(:disabled) { background: #333; }
+        .primary-btn:active:not(:disabled) { transform: scale(0.98); }
 
         .primary-btn:disabled {
-          background: #cbd5e1;
-          color: #94a3b8;
+          background: #e4e4e7;
+          color: #a1a1aa;
           cursor: not-allowed;
-          box-shadow: none;
-        }
-
-        .primary-btn:active:not(:disabled) {
-          transform: scale(0.98);
         }
 
         .secondary-btn {
           width: 100%;
-          padding: 14px;
+          padding: 12px;
           background: none;
           border: none;
-          color: #64748b;
+          color: #71717a;
           font-size: 0.9375rem;
           font-weight: 500;
           cursor: pointer;
-          border-radius: 12px;
-          transition: all 0.2s;
+          border-radius: 10px;
+          transition: all 0.15s;
         }
 
-        .secondary-btn:active {
-          background: #f1f5f9;
+        .secondary-btn:hover { background: #f4f4f5; color: #18181b; }
+
+        /* Responsive - Mobile (default) */
+        @media (max-width: 639px) {
+          .app-content { padding: 18px 14px; }
+          .profile-banner { padding: 16px 16px; gap: 14px; margin-bottom: 16px; }
+          .profile-avatar { width: 44px; height: 44px; }
+          .profile-name { font-size: 1rem; }
+          .profile-phone { font-size: 0.75rem; }
+          .section-card { padding: 16px; margin-bottom: 12px; }
+          .vehicle-plate { padding: 12px 14px; }
+          .vehicle-plate-number { font-size: 1.2rem; letter-spacing: 2px; }
+          .detail-row { padding: 12px 0; gap: 12px; }
+          .detail-icon-wrap { width: 34px; height: 34px; }
+          .edit-btn { width: 32px; height: 32px; }
+          .edit-footer { padding: 12px 14px calc(12px + env(safe-area-inset-bottom)); }
         }
 
-        /* Responsive */
+        /* Responsive - Tablet */
         @media (min-width: 640px) {
-          .mobile-app {
-            max-width: 428px;
-            margin: 0 auto;
-            box-shadow: 0 0 40px rgba(0, 0, 0, 0.1);
+          .app-content { max-width: 640px; padding: 28px 24px; margin: 0 auto; }
+          .section-card { padding: 24px; margin-bottom: 16px; }
+          .profile-banner { padding: 22px 24px; margin-bottom: 22px; }
+        }
+
+        @media (min-width: 768px) {
+          .app-content { max-width: 720px; padding: 32px 28px; }
+          .section-card { padding: 26px; margin-bottom: 18px; }
+          .profile-banner { padding: 24px 28px; gap: 18px; }
+          .profile-avatar { width: 52px; height: 52px; }
+          .profile-name { font-size: 1.125rem; }
+          .vehicle-plate-number { font-size: 1.5rem; }
+        }
+
+        /* Responsive - Desktop */
+        @media (min-width: 1024px) {
+          .app-content { max-width: 800px; padding: 36px 32px; }
+          .section-card { padding: 28px; margin-bottom: 20px; }
+          .profile-banner { padding: 26px 32px; margin-bottom: 24px; gap: 20px; }
+          .profile-avatar { width: 56px; height: 56px; }
+          .profile-name { font-size: 1.1875rem; }
+          .profile-phone { font-size: 0.875rem; }
+          .edit-footer {
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 800px;
+            width: 100%;
+            border-radius: 14px 14px 0 0;
           }
+        }
+
+        @media (min-width: 1280px) {
+          .app-content { max-width: 960px; padding: 40px 40px; }
+          .section-card { padding: 32px; margin-bottom: 24px; }
+          .profile-banner { padding: 28px 36px; }
+          .edit-footer { max-width: 960px; }
         }
       `}</style>
     </div>
